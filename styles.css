@@ -919,7 +919,18 @@ body.dark-mode .form-group label { color: var(--gold); }
    ============================================================ */
 .contact-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 45px;
+  gap: 30px;
+  align-items: stretch;
+}
+.contact-info {
+  background: var(--bg-secondary);
+  padding: 28px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .contact-info h3 {
   font-family: var(--font-serif);

@@ -650,18 +650,18 @@
     </div>
     <div class="register-box">
       <div id="statusMsg" class="status-msg" role="status" aria-live="polite"></div>
-      <form id="registrationForm">
+      <form id="registrationForm" action="https://formspree.io/f/info@yadmun.org" method="POST">
         <div class="form-row">
-          <div class="form-group"><label for="regName"><i class="fas fa-user"></i> Full Name *</label><input type="text" id="regName" required placeholder="Ama Serwaa" autocomplete="name"></div>
-          <div class="form-group"><label for="regPhone"><i class="fas fa-phone"></i> WhatsApp *</label><input type="tel" id="regPhone" required placeholder="0244xxxxxx" autocomplete="tel"></div>
+          <div class="form-group"><label for="regName"><i class="fas fa-user"></i> Full Name *</label><input type="text" name="name" id="regName" required placeholder="Ama Serwaa" autocomplete="name"></div>
+          <div class="form-group"><label for="regPhone"><i class="fas fa-phone"></i> WhatsApp *</label><input type="tel" name="phone" id="regPhone" required placeholder="0244xxxxxx" autocomplete="tel"></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label for="regEmail"><i class="fas fa-envelope"></i> Email *</label><input type="email" id="regEmail" required placeholder="you@example.com" autocomplete="email"></div>
-          <div class="form-group"><label for="regSchool"><i class="fas fa-school"></i> School *</label><input type="text" id="regSchool" required placeholder="University of Ghana" autocomplete="organization"></div>
+          <div class="form-group"><label for="regEmail"><i class="fas fa-envelope"></i> Email *</label><input type="email" name="email" id="regEmail" required placeholder="you@example.com" autocomplete="email"></div>
+          <div class="form-group"><label for="regSchool"><i class="fas fa-school"></i> School *</label><input type="text" name="school" id="regSchool" required placeholder="University of Ghana" autocomplete="organization"></div>
         </div>
         <div class="form-group">
           <label for="regCommittee"><i class="fas fa-flag"></i> Committee/Interest *</label>
-          <select id="regCommittee" required>
+          <select id="regCommittee" name="committee" required>
             <option value="">Select an option</option>
             <option value="UN Security Council">UN Security Council</option>
             <option value="UN General Assembly">UN General Assembly</option>
@@ -670,7 +670,7 @@
             <option value="Leadership Programme">Leadership Programme</option>
           </select>
         </div>
-        <button type="button" class="btn-register" id="registerBtn">
+        <button type="submit" class="btn-register" id="registerBtn">
           <i class="fas fa-user-plus"></i> Join YAD MUN Today
         </button>
       </form>
@@ -734,23 +734,25 @@
           <button class="share-btn whatsapp" data-share="whatsapp" aria-label="Share on WhatsApp">
             <i class="fab fa-whatsapp"></i>
           </button>
+          <button class="share-btn copy-link" id="copyLinkBtn" aria-label="Copy Page Link">
+            <i class="fas fa-link"></i>
+          </button>
         </div>
-
-       
+      </div>
 
       <div class="contact-form">
-        <form id="contactForm">
+        <form id="contactForm" action="https://formspree.io/f/info@yadmun.org" method="POST">
           <div class="form-group">
             <label for="cName"><i class="fas fa-user"></i> Your Name</label>
-            <input type="text" id="cName" required placeholder="Full name" autocomplete="name">
+            <input type="text" name="name" id="cName" required placeholder="Full name" autocomplete="name">
           </div>
           <div class="form-group">
             <label for="cEmail"><i class="fas fa-envelope"></i> Your Email</label>
-            <input type="email" id="cEmail" required placeholder="you@example.com" autocomplete="email">
+            <input type="email" name="email" id="cEmail" required placeholder="you@example.com" autocomplete="email">
           </div>
           <div class="form-group">
             <label for="cMessage"><i class="fas fa-comment"></i> Message</label>
-            <textarea id="cMessage" rows="3" required placeholder="How can we help?"></textarea>
+            <textarea name="message" id="cMessage" rows="4" required placeholder="How can we help?"></textarea>
           </div>
           <button type="submit" class="btn-register">
             <i class="fas fa-paper-plane"></i> Send Message
@@ -781,8 +783,8 @@
   <div class="container">
     <h3><i class="fas fa-envelope"></i> Subscribe</h3>
     <p>Get updates on conferences, programmes, and leadership opportunities.</p>
-    <form class="newsletter-form" id="newsletterForm">
-      <input type="email" placeholder="Your email address" required autocomplete="email">
+    <form class="newsletter-form" id="newsletterForm" action="https://formspree.io/f/info@yadmun.org" method="POST">
+      <input type="email" name="email" placeholder="Your email address" required autocomplete="email">
       <button type="submit"><i class="fas fa-paper-plane"></i> Subscribe</button>
     </form>
   </div>

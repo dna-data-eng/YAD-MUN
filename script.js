@@ -4,13 +4,9 @@
    CONFIG — replace these with your real endpoints before launch
    ============================================================ */
 const CONFIG = {
-  // Create a free form at https://formspree.io (or Google Forms / your own
-  // backend) and paste the endpoint IDs here. Until these are real, form
-  // submissions below will fail gracefully with an error toast rather than
-  // silently pretending to work.
-  REGISTRATION_ENDPOINT: 'https://formspree.io/f/REPLACE_WITH_REGISTRATION_FORM_ID',
-  CONTACT_ENDPOINT: 'https://formspree.io/f/REPLACE_WITH_CONTACT_FORM_ID',
-  NEWSLETTER_ENDPOINT: 'https://formspree.io/f/REPLACE_WITH_NEWSLETTER_FORM_ID',
+  REGISTRATION_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
+  CONTACT_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
+  NEWSLETTER_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
   WHATSAPP_NUMBER: '233332097330', // international format, no leading 0, no +
   CONFERENCE_DATE_ISO: '2026-12-15T09:00:00+00:00'
 };
@@ -379,8 +375,10 @@ function handleRegistration() {
       btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-user-plus"></i> Join YAD MUN Today';
     });
-}
-document.getElementById('registerBtn').addEventListener('click', handleRegistration);
+document.getElementById('registrationForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  handleRegistration();
+});
 
 /* ============================================================
    CONTACT FORM
