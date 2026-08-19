@@ -375,6 +375,7 @@ function handleRegistration() {
       btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-user-plus"></i> Join YAD MUN Today';
     });
+}
 document.getElementById('registrationForm').addEventListener('submit', function (e) {
   e.preventDefault();
   handleRegistration();
