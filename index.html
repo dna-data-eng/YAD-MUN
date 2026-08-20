@@ -824,10 +824,10 @@
       </div>
       <div>
         <h4>Policies</h4>
-        <a href="privacy.html"><i class="fas fa-chevron-right chevron-bullet"></i> Privacy</a>
-        <a href="safeguarding.html"><i class="fas fa-chevron-right chevron-bullet"></i> Safeguarding</a>
-        <a href="code-of-conduct.html"><i class="fas fa-chevron-right chevron-bullet"></i> Code of Conduct</a>
-        <a href="terms.html"><i class="fas fa-chevron-right chevron-bullet"></i> Terms</a>
+        <a href="#privacy" class="policy-link" data-policy="privacy"><i class="fas fa-chevron-right chevron-bullet"></i> Privacy</a>
+        <a href="#safeguarding" class="policy-link" data-policy="safeguarding"><i class="fas fa-chevron-right chevron-bullet"></i> Safeguarding</a>
+        <a href="#code-of-conduct" class="policy-link" data-policy="code-of-conduct"><i class="fas fa-chevron-right chevron-bullet"></i> Code of Conduct</a>
+        <a href="#terms" class="policy-link" data-policy="terms"><i class="fas fa-chevron-right chevron-bullet"></i> Terms</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -846,10 +846,29 @@
 
 <!-- ===== COOKIE CONSENT ===== -->
 <div class="cookie-consent" id="cookieConsent">
-  <p><i class="fas fa-cookie-bite cookie-icon"></i> We use cookies to enhance your experience. By continuing, you agree to our <a href="privacy.html">Privacy Policy</a>.</p>
+  <p><i class="fas fa-cookie-bite cookie-icon"></i> We use cookies to enhance your experience. By continuing, you agree to our <a href="#privacy" class="policy-link" data-policy="privacy">Privacy Policy</a>.</p>
   <div class="cookie-btn-group">
     <button class="btn-cookie" id="cookieAccept"><i class="fas fa-check"></i> Accept</button>
     <button class="btn-cookie-outline" id="cookieDecline"><i class="fas fa-times"></i> Decline</button>
+  </div>
+</div>
+
+<!-- ===== POLICY MODAL ===== -->
+<div class="policy-modal-overlay" id="policyModal" aria-hidden="true" role="dialog" aria-labelledby="policyModalTitle">
+  <div class="policy-modal-card">
+    <div class="policy-modal-header">
+      <div class="policy-modal-title-wrap">
+        <i class="fas fa-shield-alt modal-title-icon" id="policyModalIcon"></i>
+        <h3 id="policyModalTitle">Policy Title</h3>
+      </div>
+      <button class="policy-modal-close" id="closePolicyModal" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="policy-modal-body" id="policyModalBody">
+      <!-- Policy content injected dynamically via JS -->
+    </div>
+    <div class="policy-modal-footer">
+      <button class="btn-primary" id="policyModalOkBtn"><i class="fas fa-check"></i> Understood</button>
+    </div>
   </div>
 </div>
 

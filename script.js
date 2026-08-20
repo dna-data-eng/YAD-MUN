@@ -450,10 +450,153 @@ document.getElementById('newsletterForm').addEventListener('submit', function (e
 });
 
 /* ============================================================
+   POLICY MODAL POPUPS
+   ============================================================ */
+const POLICIES_DATA = {
+  privacy: {
+    title: 'Privacy Policy',
+    icon: 'fas fa-shield-alt',
+    content: `
+      <h4>1. Overview</h4>
+      <p>Youth Ambassadors in Diplomacy & Model United Nations (YAD MUN) is committed to protecting the privacy and personal data of our delegates, members, partners, and website visitors.</p>
+      
+      <h4>2. Information We Collect</h4>
+      <p>We collect personal information necessary for program registration and communication, including:</p>
+      <ul>
+        <li>Full Name and Contact Information (Email, Phone/WhatsApp number)</li>
+        <li>Academic Institution or Organization</li>
+        <li>Committee and Conference Preferences</li>
+        <li>Message details submitted through our contact forms</li>
+      </ul>
+      
+      <h4>3. How We Use Your Data</h4>
+      <p>Your personal data is used solely to process conference registrations, provide updates on programs, issue official participation certificates, and communicate organizational announcements. We never sell or share your data with unauthorized third parties.</p>
+      
+      <h4>4. Cookies & Analytics</h4>
+      <p>Our website uses essential session cookies to remember your preferences (such as dark mode and cookie acceptance) and improve user experience.</p>
+      
+      <h4>5. Contact Us</h4>
+      <p>For questions regarding your privacy or to request data removal, please contact our team at <strong>info@yadmun.org</strong>.</p>
+    `
+  },
+  safeguarding: {
+    title: 'Safeguarding Policy',
+    icon: 'fas fa-user-shield',
+    content: `
+      <h4>1. Our Commitment</h4>
+      <p>YAD MUN holds a paramount duty of care to ensure all young people, students, and participants feel safe, valued, and respected at every YAD MUN event, simulation, and training session.</p>
+      
+      <h4>2. Zero Tolerance Policy</h4>
+      <p>We maintain a strict zero-tolerance policy towards any form of harassment, bullying, discrimination, abuse, or exploitation. All delegates, staff, and advisors are bound by our safe environment standard.</p>
+      
+      <h4>3. Code of Care for Minors</h4>
+      <ul>
+        <li>All chaperones and officers undergo background checks and safeguarding orientation.</li>
+        <li>Events maintain proper adult-to-student supervision ratios.</li>
+        <li>Emergency contact protocols and medical care arrangements are active at all physical conferences.</li>
+      </ul>
+      
+      <h4>4. Reporting Concerns</h4>
+      <p>If you experience or witness any behavior that compromises safety, report it immediately to our team at <strong>info@yadmun.org</strong> or call <strong>0332 097 330</strong>.</p>
+    `
+  },
+  'code-of-conduct': {
+    title: 'Code of Conduct',
+    icon: 'fas fa-gavel',
+    content: `
+      <h4>1. Diplomatic Decorum & Respect</h4>
+      <p>All delegates and participants are expected to maintain professional diplomacy, courtesy, and mutual respect during UN committee simulations, debates, and social events.</p>
+      
+      <h4>2. Professional Standards</h4>
+      <ul>
+        <li><strong>Diplomatic Conduct:</strong> Adhere to parliamentary procedures and engage constructively with fellow delegates.</li>
+        <li><strong>Dress Code:</strong> Formal Western Business Attire or recognized national traditional wear is required during committee sessions.</li>
+        <li><strong>Inclusivity:</strong> Discrimination based on ethnicity, gender, religion, background, or nationality is strictly prohibited.</li>
+      </ul>
+      
+      <h4>3. Academic Integrity</h4>
+      <p>Pre-written resolutions, plagiarism, or dishonest research undermine the educational value of Model UN. All position papers must reflect original research and delegates' own work.</p>
+      
+      <h4>4. Disciplinary Action</h4>
+      <p>Violation of the Code of Conduct may result in official warnings, forfeiture of award eligibility, or immediate expulsion from the conference without refund.</p>
+    `
+  },
+  terms: {
+    title: 'Terms of Service',
+    icon: 'fas fa-file-contract',
+    content: `
+      <h4>1. Acceptance of Terms</h4>
+      <p>By registering for YAD MUN programs, using our website, or attending our events, you agree to comply with and be bound by these Terms of Service.</p>
+      
+      <h4>2. Conference Registration & Participation</h4>
+      <ul>
+        <li>Registration is non-transferable without prior written permission from the Executive Directorate.</li>
+        <li>Delegates are responsible for their own travel, accommodation, and personal logistics unless officially provided under a scholarship grant.</li>
+      </ul>
+      
+      <h4>3. Media Consent</h4>
+      <p>By attending YAD MUN conferences, participants consent to photography, audio recording, and video recording for educational, archival, and promotional purposes by YAD MUN.</p>
+      
+      <h4>4. Intellectual Property</h4>
+      <p>All educational guidebooks, conference handbooks, logos, and materials published by YAD MUN remain the intellectual property of Youth Ambassadors in Diplomacy & Model United Nations LBG.</p>
+    `
+  }
+};
+
+function openPolicyModal(policyKey) {
+  const modal = document.getElementById('policyModal');
+  const policy = POLICIES_DATA[policyKey] || POLICIES_DATA.privacy;
+  
+  document.getElementById('policyModalTitle').textContent = policy.title;
+  document.getElementById('policyModalIcon').className = 'modal-title-icon ' + policy.icon;
+  document.getElementById('policyModalBody').innerHTML = policy.content;
+  
+  modal.setAttribute('aria-hidden', 'false');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePolicyModal() {
+  const modal = document.getElementById('policyModal');
+  if (!modal) return;
+  modal.setAttribute('aria-hidden', 'true');
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('.policy-link').forEach(function (link) {
+  link.addEventListener('click', function (e) {
+    e.preventDefault();
+    const policyKey = this.getAttribute('data-policy');
+    openPolicyModal(policyKey);
+  });
+});
+
+const closeBtn = document.getElementById('closePolicyModal');
+if (closeBtn) closeBtn.addEventListener('click', closePolicyModal);
+
+const okBtn = document.getElementById('policyModalOkBtn');
+if (okBtn) okBtn.addEventListener('click', closePolicyModal);
+
+const modalElem = document.getElementById('policyModal');
+if (modalElem) {
+  modalElem.addEventListener('click', function (e) {
+    if (e.target === this) {
+      closePolicyModal();
+    }
+  });
+}
+
+/* ============================================================
    KEYBOARD SHORTCUTS
    ============================================================ */
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') {
+    const modal = document.getElementById('policyModal');
+    if (modal && modal.classList.contains('open')) {
+      closePolicyModal();
+      return;
+    }
     if (document.getElementById('cookieConsent').classList.contains('show')) {
       dismissCookies();
     }
