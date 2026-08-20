@@ -61,6 +61,7 @@ function closeTopBar() {
     }
   } catch (e) {}
 })();
+document.getElementById('topBarClose').addEventListener('click', closeTopBar);
 
 /* ============================================================
    DARK MODE
@@ -107,37 +108,11 @@ document.getElementById('cookieDecline').addEventListener('click', dismissCookie
 setTimeout(showCookieConsent, 3000);
 
 /* ============================================================
-   POLICY MODAL (uses native <dialog>-free alert fallback)
+   POLICY MODAL — handled entirely by POLICIES_DATA / openPolicyModal
+   further down this file, via a single delegated click listener.
+   (Previously there was a second, alert()-based handler bound here
+   that fired at the same time as the real modal — removed.)
    ============================================================ */
-const POLICIES = {
-  privacy: {
-    title: 'Privacy Policy',
-    content: 'YAD MUN respects your privacy. We collect personal information only when voluntarily submitted by you. Your data is used solely for programme registration, communication, and improving our services. We do not share your data with third parties without your consent. You may request access, correction, or deletion of your data at any time by contacting us at info@yadmun.org.'
-  },
-  safeguarding: {
-    title: 'Safeguarding Policy',
-    content: 'YAD MUN is committed to creating a safe environment for all participants. We have zero tolerance for abuse, harassment, or discrimination. All staff and volunteers undergo background checks and safeguarding training. Any concerns can be reported confidentially to our Safeguarding Officer at safeguarding@yadmun.org.'
-  },
-  conduct: {
-    title: 'Code of Conduct',
-    content: 'All YAD MUN participants are expected to behave with integrity, respect, and professionalism. This includes: respecting diverse perspectives, maintaining academic honesty, treating others with dignity, and representing YAD MUN positively. Violations may result in removal from programmes.'
-  },
-  terms: {
-    title: 'Terms of Use',
-    content: 'By using this website and participating in YAD MUN programmes, you agree to our terms. All content is for informational purposes. We reserve the right to update these terms. Participants are responsible for their own travel, health, and safety arrangements. YAD MUN is not liable for any loss or damage arising from participation.'
-  }
-};
-function openPolicy(type, evt) {
-  if (evt) evt.preventDefault();
-  const policy = POLICIES[type];
-  if (!policy) return;
-  alert(policy.title + '\n\n' + policy.content + '\n\nFor more information, contact info@yadmun.org.');
-}
-document.querySelectorAll('[data-policy]').forEach(function (link) {
-  link.addEventListener('click', function (e) {
-    openPolicy(this.dataset.policy, e);
-  });
-});
 
 /* ============================================================
    HAMBURGER
