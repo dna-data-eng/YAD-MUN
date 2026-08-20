@@ -6,7 +6,6 @@
 const CONFIG = {
   REGISTRATION_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
   CONTACT_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
-  NEWSLETTER_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
   WHATSAPP_NUMBER: '233332097330', // international format, no leading 0, no +
   CONFERENCE_DATE_ISO: '2026-12-15T09:00:00+00:00'
 };
@@ -397,36 +396,6 @@ document.getElementById('contactForm').addEventListener('submit', function (e) {
     .finally(function () {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalLabel;
-    });
-});
-
-/* ============================================================
-   NEWSLETTER
-   ============================================================ */
-document.getElementById('newsletterForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-  const input = this.querySelector('input[type="email"]');
-  const email = input.value.trim();
-  const btn = this.querySelector('button[type="submit"]');
-  const originalLabel = btn.innerHTML;
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-
-  submitToEndpoint(CONFIG.NEWSLETTER_ENDPOINT, { email: email, _subject: 'New newsletter subscriber' })
-    .then(function () {
-      showToast('Thank you for subscribing!', 'success');
-      input.value = '';
-    })
-    .catch(function (err) {
-      if (err.message === 'endpoint-not-configured') {
-        showToast('Newsletter is not connected to a backend yet.', 'error');
-      } else {
-        showToast('Subscription failed. Please try again.', 'error');
-      }
-    })
-    .finally(function () {
-      btn.disabled = false;
-      btn.innerHTML = originalLabel;
     });
 });
 

@@ -1968,92 +1968,6 @@ body.dark-mode .contact-form .form-group label {
 
 
 /* ============================================================
-   NEWSLETTER
-   ============================================================ */
-.newsletter-section {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  padding: 35px 0;
-  text-align: center;
-  color: var(--white);
-  border-top: 2px solid var(--gold);
-  border-bottom: 2px solid var(--gold);
-}
-
-.newsletter-section h3 {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  margin-bottom: 6px;
-}
-
-.newsletter-section h3 .fa {
-  color: var(--gold);
-  margin-right: 6px;
-}
-
-.newsletter-section p {
-  opacity: 0.8;
-  margin-bottom: 14px;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 0.8rem;
-}
-
-.newsletter-form {
-  display: flex;
-  max-width: 420px;
-  margin: 0 auto;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.newsletter-form input {
-  flex: 1;
-  min-width: 160px;
-  padding: 8px 18px;
-  border: none;
-  border-radius: 50px;
-  font-size: 0.8rem;
-  outline: none;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  color: var(--white);
-  border: 1px solid var(--glass-border);
-  font-family: var(--font-sans);
-}
-
-.newsletter-form input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.newsletter-form input:focus {
-  border-color: var(--gold);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.newsletter-form button {
-  background: var(--gold);
-  color: var(--white);
-  border: none;
-  padding: 8px 24px;
-  border-radius: 50px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: var(--transition);
-  text-transform: uppercase;
-  font-size: 0.65rem;
-  letter-spacing: 0.5px;
-  font-family: var(--font-sans);
-}
-
-.newsletter-form button:hover {
-  background: var(--gold-dark);
-  transform: scale(1.02);
-}
-
-/* ============================================================
    FOOTER
    ============================================================ */
 .footer {
@@ -2868,8 +2782,7 @@ textarea:focus-visible {
 
 /* ============================================================
    PRINT — .no-print marks chrome (top bar, floating buttons,
-   countdown, cookie banner, newsletter) that has no purpose on
-   a printed page.
+   countdown, cookie banner) that has no purpose on a printed page.
    ============================================================ */
 @media print {
   .no-print {
