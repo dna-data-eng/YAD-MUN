@@ -16,7 +16,13 @@ const CONFIG = {
    ============================================================ */
 function showToast(message, type) {
   type = type || 'success';
-  const container = document.getElementById('toastContainer');
+  let container = document.getElementById('toastContainer');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toastContainer';
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
   const toast = document.createElement('div');
   const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
   toast.className = 'toast ' + type;
@@ -620,7 +626,7 @@ document.addEventListener('keydown', function (e) {
       dismissCookies();
     }
   }
-  if (e.altKey && e.key === 'd') darkToggle.click();
+  if (e.altKey && e.key === 'd') { const btn = document.getElementById('darkToggle'); if (btn) btn.click(); }
   if (e.altKey && e.key === 'h') window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (e.altKey && e.key === 'r') document.getElementById('register').scrollIntoView({ behavior: 'smooth' });
+  if (e.altKey && e.key === 'r') { const reg = document.getElementById('register'); if (reg) reg.scrollIntoView({ behavior: 'smooth' }); }
 });
