@@ -582,28 +582,29 @@ function closePolicyModal() {
   document.body.style.overflow = '';
 }
 
-document.querySelectorAll('.policy-link').forEach(function (link) {
-  link.addEventListener('click', function (e) {
+window.openPolicyModal = openPolicyModal;
+window.closePolicyModal = closePolicyModal;
+
+document.addEventListener('click', function (e) {
+  const link = e.target.closest('.policy-link') || e.target.closest('[data-policy]');
+  if (link) {
     e.preventDefault();
-    const policyKey = this.getAttribute('data-policy');
+    const policyKey = link.getAttribute('data-policy') || link.getAttribute('href');
     openPolicyModal(policyKey);
-  });
+    return;
+  }
+  
+  if (e.target.closest('#closePolicyModal') || e.target.closest('#policyModalOkBtn')) {
+    e.preventDefault();
+    closePolicyModal();
+    return;
+  }
+  
+  const modal = document.getElementById('policyModal');
+  if (modal && e.target === modal) {
+    closePolicyModal();
+  }
 });
-
-const closeBtn = document.getElementById('closePolicyModal');
-if (closeBtn) closeBtn.addEventListener('click', closePolicyModal);
-
-const okBtn = document.getElementById('policyModalOkBtn');
-if (okBtn) okBtn.addEventListener('click', closePolicyModal);
-
-const modalElem = document.getElementById('policyModal');
-if (modalElem) {
-  modalElem.addEventListener('click', function (e) {
-    if (e.target === this) {
-      closePolicyModal();
-    }
-  });
-}
 
 /* ============================================================
    KEYBOARD SHORTCUTS
