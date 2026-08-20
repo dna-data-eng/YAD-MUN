@@ -543,14 +543,32 @@ const POLICIES_DATA = {
   }
 };
 
+POLICIES_DATA['codeofconduct'] = POLICIES_DATA['code-of-conduct'];
+POLICIES_DATA['conduct'] = POLICIES_DATA['code-of-conduct'];
+
 function openPolicyModal(policyKey) {
   const modal = document.getElementById('policyModal');
-  const policy = POLICIES_DATA[policyKey] || POLICIES_DATA.privacy;
+  if (!modal) return;
+
+  const rawKey = (policyKey || 'privacy').toLowerCase().trim();
+  let policy = POLICIES_DATA[rawKey];
   
+  if (!policy) {
+    if (rawKey.indexOf('conduct') !== -1 || rawKey.indexOf('code') !== -1) {
+      policy = POLICIES_DATA['code-of-conduct'];
+    } else if (rawKey.indexOf('guard') !== -1 || rawKey.indexOf('safe') !== -1) {
+      policy = POLICIES_DATA.safeguarding;
+    } else if (rawKey.indexOf('term') !== -1) {
+      policy = POLICIES_DATA.terms;
+    } else {
+      policy = POLICIES_DATA.privacy;
+    }
+  }
+
   document.getElementById('policyModalTitle').textContent = policy.title;
   document.getElementById('policyModalIcon').className = 'modal-title-icon ' + policy.icon;
   document.getElementById('policyModalBody').innerHTML = policy.content;
-  
+
   modal.setAttribute('aria-hidden', 'false');
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
