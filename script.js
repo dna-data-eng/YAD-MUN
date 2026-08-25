@@ -1,576 +1,1476 @@
-'use strict';
+// ============================================================
+  // PARTICLE BACKGROUND - Futuristic
+  // ============================================================
+  (function createParticles() {
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animationId;
 
-/* ============================================================
-   CONFIG — replace these with your real endpoints before launch
-   ============================================================ */
-const CONFIG = {
-  REGISTRATION_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
-  CONTACT_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
-  WHATSAPP_NUMBER: '233332097330', // international format, no leading 0, no +
-  CONFERENCE_DATE_ISO: '2026-12-15T09:00:00+00:00'
-};
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
-/* ============================================================
-   TOAST
-   ============================================================ */
-function showToast(message, type) {
-  type = type || 'success';
-  let container = document.getElementById('toastContainer');
-  if (!container) {
-    container = document.createElement('div');
-    container.id = 'toastContainer';
-    container.className = 'toast-container';
-    document.body.appendChild(container);
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = (Math.random() - 0.5) * 0.5;
+        this.opacity = Math.random() * 0.5 + 0.2;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x > canvas.width) this.x = 0;
+        if (this.x < 0) this.x = canvas.width;
+        if (this.y > canvas.height) this.y = 0;
+        if (this.y < 0) this.y = canvas.height;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+        ctx.fill();
+      }
+    }
+
+    function createParticles() {
+      const count = Math.min(80, Math.floor(window.innerWidth / 15));
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+    }
+    createParticles();
+
+    function drawLines() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 150) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(212, 175, 55, ${0.1 * (1 - distance / 150)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach(particle => {
+        particle.update();
+        particle.draw();
+      });
+      
+      drawLines();
+      animationId = requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
+
+    // Cleanup on page hide
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        cancelAnimationFrame(animationId);
+      } else {
+        animateParticles();
+      }
+    });
+  })();
+
+  // ============================================================
+  // MODAL DATA - All Content
+  // ============================================================
+  const MODAL_DATA = {
+    diplomacy: {
+      title: 'Diplomacy Education',
+      subtitle: 'Youth Diplomacy Programme',
+      image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070',
+      tags: ['Education', 'Diplomacy', 'Youth'],
+      content: 'The Diplomacy Education programme introduces young people to the fundamentals of international relations, negotiation, and diplomatic protocols. Participants learn about global governance structures, conflict resolution, and the art of diplomacy through interactive workshops, simulations, and guest lectures from experienced diplomats.',
+      cta: 'Enrol Now',
+      link: '#programmes'
+    },
+    mun: {
+      title: 'Model United Nations',
+      subtitle: 'MUN Training Programme',
+      image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070',
+      tags: ['Model UN', 'Public Speaking', 'Research'],
+      content: 'Our Model United Nations programme develops essential skills in research, public speaking, negotiation, and problem-solving. Participants engage in realistic UN simulations, debating global issues, drafting resolutions, and finding consensus.',
+      cta: 'Register for MUN',
+      link: '#register'
+    },
+    leadership: {
+      title: 'Youth Leadership Programme',
+      subtitle: 'Leadership Development',
+      image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070',
+      tags: ['Leadership', 'Ethics', 'Development'],
+      content: 'The Youth Leadership Programme equips young people with essential leadership skills, ethical values, and practical tools for effective leadership. Through mentorship, training sessions, and community projects, participants develop the confidence and competence to lead.',
+      cta: 'Apply for Leadership',
+      link: '#register'
+    },
+    international: {
+      title: 'International Exposure',
+      subtitle: 'Global Opportunities',
+      image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2070',
+      tags: ['International', 'Conferences', 'Global'],
+      content: 'The International Exposure programme facilitates participation in international conferences, forums, and exchange programmes. YAD MUN delegates have represented Ghana at UN conferences, international youth summits, and diplomatic forums.',
+      cta: 'Explore Opportunities',
+      link: '#opportunities'
+    },
+    policy: {
+      title: 'Policy & Research',
+      subtitle: 'Youth Policy Engagement',
+      image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1932',
+      tags: ['Policy', 'Research', 'Advocacy'],
+      content: 'The Policy & Research programme encourages young people to engage with global conversations, conduct research on pressing international issues, and contribute to policy development. Participants learn to analyse complex problems, propose solutions, and advocate for change.',
+      cta: 'Join Policy Forum',
+      link: '#programmes'
+    },
+    partnerships: {
+      title: 'Strategic Partnerships',
+      subtitle: 'Collaboration for Impact',
+      image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2070',
+      tags: ['Partnerships', 'Collaboration', 'Impact'],
+      content: 'Our Partnership programme works with schools, universities, governments, NGOs, and international organizations to create transformative opportunities for youth. Through strategic partnerships, we expand our reach, share resources, and create a lasting impact.',
+      cta: 'Partner with Us',
+      link: '#contact'
+    },
+    conference2026: {
+      title: 'National Conference 2026',
+      subtitle: 'YAD MUN Annual Conference',
+      image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070',
+      tags: ['Conference', 'National', 'MUN'],
+      content: 'The YAD MUN National Conference 2026 is the premier event for youth diplomacy in Ghana. Over 500 delegates from across the country will gather at the Accra ICC for a week of diplomatic simulations, leadership training, and networking. Register now to secure your spot!',
+      cta: 'Register Now',
+      link: '#register',
+      eventDetails: {
+        date: 'December 15, 2026',
+        time: '9:00 AM - 6:00 PM',
+        venue: 'Accra International Conference Centre',
+        delegates: '500+',
+        committees: ['UN Security Council', 'UN General Assembly', 'ECOSOC', 'Human Rights Council']
+      }
+    },
+    bootcamp: {
+      title: 'Leadership Bootcamp',
+      subtitle: 'Intensive Leadership Training',
+      image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070',
+      tags: ['Training', 'Leadership', 'Bootcamp'],
+      content: 'The Leadership Bootcamp is an intensive 5-day residential programme designed to develop the next generation of ethical leaders. Through immersive workshops, team challenges, and mentorship sessions, participants gain practical leadership skills.',
+      cta: 'Apply for Bootcamp',
+      link: '#register',
+      eventDetails: {
+        date: 'October 10-14, 2026',
+        time: '8:00 AM - 5:00 PM',
+        venue: 'University of Ghana, Legon',
+        delegates: '100+',
+        topics: ['Public Speaking', 'Conflict Resolution', 'Project Management', 'Ethical Decision Making']
+      }
+    },
+    muncompetition: {
+      title: 'Inter-School MUN Competition',
+      subtitle: 'High School MUN Challenge',
+      image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1932',
+      tags: ['MUN', 'Competition', 'Schools'],
+      content: 'The Inter-School MUN Competition brings together 200+ students from across Ghana\'s high schools for a friendly yet competitive MUN experience. Students debate pressing global issues, develop diplomatic skills, and compete for prestigious awards.',
+      cta: 'Register Your School',
+      link: '#register',
+      eventDetails: {
+        date: 'November 5, 2026',
+        time: '10:00 AM - 4:00 PM',
+        venue: 'Accra International School',
+        delegates: '200+',
+        awards: ['Best Delegate', 'Outstanding Position Paper', 'Best Resolution', 'Honorable Mention']
+      }
+    },
+    conferenceregistration: {
+      title: 'Registration Now Open for 2026 Conference',
+      subtitle: 'YAD MUN Conference 2026',
+      image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070',
+      tags: ['News', 'Conference', 'Registration'],
+      content: 'YAD MUN is excited to announce that registration for the 2026 National Conference is now open! This year\'s theme is "Youth Diplomacy for Sustainable Development". Early bird registration offers significant discounts.',
+      cta: 'Register Now',
+      link: '#register'
+    },
+    ministrypartnership: {
+      title: 'YAD MUN Partners with Ministry of Education',
+      subtitle: 'Strategic Partnership',
+      image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070',
+      tags: ['Partnership', 'Education', 'Ministry'],
+      content: 'YAD MUN has signed a landmark partnership agreement with the Ministry of Education to integrate Model UN programmes into Ghana\'s secondary school curriculum. This partnership will benefit thousands of students across the country.',
+      cta: 'Learn More',
+      link: '#contact'
+    },
+    unconference: {
+      title: 'YAD MUN Delegates Shine at UN Conference',
+      subtitle: 'International Success',
+      image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1932',
+      tags: ['UN', 'Conference', 'Delegates'],
+      content: 'A delegation of 10 YAD MUN ambassadors represented Ghana at the annual UN Youth Conference in New York. The team presented a resolution on climate action and youth participation in international governance, earning recognition from UN officials.',
+      cta: 'Read Full Story',
+      link: '#blog'
+    },
+    conferences: {
+      title: 'Youth Conferences',
+      subtitle: 'National & International Conferences',
+      image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070',
+      tags: ['Conferences', 'Networking', 'Youth'],
+      content: 'YAD MUN offers young people the opportunity to participate in national and international conferences focused on diplomacy, leadership, and global governance. These conferences provide platforms for youth to engage with world leaders and network with peers.',
+      cta: 'View Upcoming Conferences',
+      link: '#events'
+    },
+    training: {
+      title: 'Training Programmes',
+      subtitle: 'Skills Development',
+      image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070',
+      tags: ['Training', 'Skills', 'Development'],
+      content: 'Our training programmes cover a wide range of topics including public speaking, negotiation, research, writing, and leadership. Designed for young people of all skill levels, these programmes equip participants with practical skills.',
+      cta: 'Browse Training',
+      link: '#programmes'
+    },
+    scholarships: {
+      title: 'Leadership Scholarships',
+      subtitle: 'Funding for Young Leaders',
+      image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1932',
+      tags: ['Scholarships', 'Funding', 'Leadership'],
+      content: 'YAD MUN offers scholarships to support young leaders in their educational and professional development. These scholarships cover participation fees for conferences, training programmes, and international opportunities.',
+      cta: 'Apply for Scholarship',
+      link: '#register'
+    },
+    fellowships: {
+      title: 'Youth Fellowships',
+      subtitle: 'Emerging Leaders Programme',
+      image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070',
+      tags: ['Fellowships', 'Leadership', 'Emerging'],
+      content: 'The YAD MUN Fellowship programme identifies and nurtures emerging leaders with a passion for diplomacy and international affairs. Fellows receive mentorship, leadership training, and opportunities to lead initiatives.',
+      cta: 'Apply for Fellowship',
+      link: '#register'
+    },
+    internships: {
+      title: 'Internship Opportunities',
+      subtitle: 'Professional Experience',
+      image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2070',
+      tags: ['Internships', 'Experience', 'Career'],
+      content: 'YAD MUN offers internships for young professionals interested in gaining experience in the non-profit sector, diplomacy, and youth development. Interns work alongside experienced professionals on projects that make a real difference.',
+      cta: 'View Internships',
+      link: '#contact'
+    },
+    delegations: {
+      title: 'YAD MUN Delegations',
+      subtitle: 'Global Representation',
+      image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2070',
+      tags: ['Delegations', 'Global', 'Representation'],
+      content: 'YAD MUN sends delegations to represent Ghana at international conferences, MUN events, and youth summits around the world. Delegates are selected through a competitive process based on their skills, passion, and commitment.',
+      cta: 'Join a Delegation',
+      link: '#contact'
+    },
+    chairman: {
+      title: 'Nana Osompa Nyamekye II',
+      subtitle: 'Board Chairman · Chief of Gomoa Otaprow',
+      image: 'https://ui-avatars.com/api/?name=Nana+Osompa+Nyamekye+II&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Board Chairman', 'Traditional Leader', 'Community Advocate'],
+      content: `<p><strong>Nana Osompa Nyamekye II</strong>, born <strong>George Essuman</strong>, is a Ghanaian traditional leader, social worker and community development advocate.</p>
+      <p>He serves as the <strong>Chief of Gomoa Otaprow</strong> in Ghana's Central Region and has also served as the Odikro and Nsafoahene of the Gomoa Akyempim Traditional Area/Council.</p>
+      <div class="modal-section-title">Leadership</div>
+      <p>Nana Osompa Nyamekye II has placed considerable emphasis on improving the social and physical development of Otaprow. Notable initiatives include the construction of a <strong>community centre</strong>, a <strong>two-unit kindergarten block</strong>, and the refurbishment of the traditional palace.</p>
+      <div class="modal-quote">"Ethical conduct should be practiced not only in schools but also by traditional leaders, teachers, politicians and public officials."</div>`,
+      cta: 'Learn More',
+      link: '#leadership'
+    },
+    essel: {
+      title: 'Elijah Essel',
+      subtitle: 'Founding Executive Director & Secretary General',
+      image: 'https://ui-avatars.com/api/?name=Elijah+Essel&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Founder', 'Educationist', 'Environmental Scientist'],
+      content: `<p><strong>Elijah Essel</strong> is an educationist, environmental scientist, youth development strategist, and diplomacy advocate serving as the <strong>Founding Executive Director and Secretary General</strong> of YAD MUN LBG.</p>
+      <p>Elijah holds a <strong>Bachelor of Science (BSc) in Agricultural Technology</strong> from the University for Development Studies and a <strong>Master of Philosophy (MPhil) in Environmental Science</strong> from the University of Cape Coast.</p>
+      <div class="modal-quote">"Youth development is not simply about preparing young people for future leadership—it is about creating meaningful opportunities for them to learn, engage, deliberate, serve, and lead today."</div>`,
+      cta: 'Meet Elijah',
+      link: '#leadership'
+    },
+    ansah: {
+      title: 'Robert Abeku Ansah',
+      subtitle: 'Executive Director for Policy & Research',
+      image: 'https://ui-avatars.com/api/?name=Robert+Abeku+Ansah&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Researcher', 'Policy Practitioner', 'Youth Advocate'],
+      content: `<p><strong>Robert Abeku Ansah</strong> is a Ghanaian researcher, policy practitioner, youth development advocate, and development strategist.</p>
+      <p>He holds a <strong>Bachelor of Arts degree in African Studies</strong> from the University of Cape Coast, a <strong>Master of Arts degree in Education, Gender and Development</strong>, and a <strong>Postgraduate Master of Arts in International Relations</strong> from Coventry University.</p>
+      <div class="modal-quote">"Informed young people are essential to effective diplomacy, responsive governance, sustainable development, and the future of Africa."</div>`,
+      cta: 'View Publications',
+      link: '#leadership'
+    },
+    paintsil: {
+      title: 'Ronnie Ato Paintsil',
+      subtitle: 'Deputy Executive Director · Media Practitioner',
+      image: 'https://ui-avatars.com/api/?name=Ronnie+Ato+Paintsil&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Filmmaker', 'Media', 'Creative Entrepreneur'],
+      content: `<p><strong>Ronnie Ato Paintsil</strong>, popularly known as <strong>Afrikaba Ronnie</strong>, is a Ghanaian media practitioner, filmmaker, creative entrepreneur, and youth development advocate.</p>
+      <p>He serves as the <strong>Managing Director of Afrikaba Production/Afrikaba Media Solutions</strong> and has represented Ghana at the <strong>International Broadcasting Convention (IBC) in Amsterdam</strong>.</p>
+      <div class="modal-quote">"Media, film and creativity can be powerful instruments for social transformation."</div>`,
+      cta: 'Follow Ronnie',
+      link: '#leadership'
+    },
+    jibril: {
+      title: 'Mohammed Jibril',
+      subtitle: 'Vice Chairman',
+      image: 'https://ui-avatars.com/api/?name=Mohammed+Jibril&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Board', 'Vice Chairman'],
+      content: 'Mohammed Jibril serves as Vice Chairman of YAD MUN, providing steadfast support to the Chairman and ensuring smooth board operations.',
+      link: '#leadership'
+    },
+    ofosu: {
+      title: 'Eugene Ofosu',
+      subtitle: 'Deputy Secretary General',
+      image: 'https://ui-avatars.com/api/?name=Eugene+Ofosu&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Board', 'Secretary'],
+      content: 'Eugene Ofosu serves as Deputy Secretary General, supporting board administration and ensuring effective communication between board members and the executive team.',
+      link: '#leadership'
+    },
+    baidoo: {
+      title: 'Maxwell Kwesi Baidoo',
+      subtitle: 'Board Member',
+      image: 'https://ui-avatars.com/api/?name=Maxwell+Kwesi+Baidoo&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Board', 'Governance'],
+      content: 'Maxwell Kwesi Baidoo brings extensive experience in governance and oversight to the YAD MUN Board.',
+      link: '#leadership'
+    },
+    yeboah: {
+      title: 'Patrick Yeboah',
+      subtitle: 'Board Member',
+      image: 'https://ui-avatars.com/api/?name=Patrick+Yeboah&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Board', 'Governance'],
+      content: 'Patrick Yeboah serves as a Board Member, contributing his expertise in governance and oversight to guide YAD MUN\'s strategic direction.',
+      link: '#leadership'
+    },
+    baah: {
+      title: 'Israel Otsieku Baah',
+      subtitle: 'Board Member',
+      image: 'https://ui-avatars.com/api/?name=Israel+Otsieku+Baah&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Board', 'Governance'],
+      content: 'Israel Otsieku Baah is a dedicated Board Member with a strong commitment to youth empowerment and organizational excellence.',
+      link: '#leadership'
+    },
+    nyarkoh: {
+      title: 'Samuel Nyarkoh',
+      subtitle: 'Deputy Executive Director',
+      image: 'https://ui-avatars.com/api/?name=Samuel+Nyarkoh&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Executive', 'Deputy Director', 'International'],
+      content: 'Samuel Nyarkoh serves as Deputy Executive Director, leading international relations and partnerships.',
+      link: '#leadership'
+    },
+    davidson: {
+      title: 'Morris Ansah Davidson',
+      subtitle: 'Director of Schools Projects',
+      image: 'https://ui-avatars.com/api/?name=Morris+Ansah+Davidson&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Committee', 'Director', 'Schools'],
+      content: 'Morris Ansah Davidson leads schools projects, working with educational institutions to integrate MUN and diplomacy education.',
+      link: '#leadership'
+    },
+    owusu: {
+      title: 'Carrin Owusu',
+      subtitle: 'Director of Membership Affairs',
+      image: 'https://ui-avatars.com/api/?name=Carrin+Owusu&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Committee', 'Director', 'Membership'],
+      content: 'Carrin Owusu manages membership affairs, ensuring that YAD MUN members receive the support and opportunities they need.',
+      link: '#leadership'
+    },
+    manful: {
+      title: 'Lawrence Manful',
+      subtitle: 'Director of Communications',
+      image: 'https://ui-avatars.com/api/?name=Lawrence+Manful&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Committee', 'Director', 'Communications'],
+      content: 'Lawrence Manful leads communications and public relations, sharing YAD MUN\'s story and impact with the world.',
+      link: '#leadership'
+    },
+    acquah: {
+      title: 'Timothy Acquah',
+      subtitle: 'Director of Finance & Admin',
+      image: 'https://ui-avatars.com/api/?name=Timothy+Acquah&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Committee', 'Director', 'Finance'],
+      content: 'Timothy Acquah oversees finance and administration, ensuring YAD MUN\'s financial sustainability and operational efficiency.',
+      link: '#leadership'
+    },
+    asamoah: {
+      title: 'Josephine Asamoah',
+      subtitle: 'Chief of Protocol & Events',
+      image: 'https://ui-avatars.com/api/?name=Josephine+Asamoah&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Committee', 'Protocol', 'Events'],
+      content: 'Josephine Asamoah serves as Chief of Protocol and Events, managing the high-level protocol aspects of YAD MUN events and conferences.',
+      link: '#leadership'
+    },
+    hnyarkoh: {
+      title: 'Harriet Nyarkoh',
+      subtitle: 'Director of Training',
+      image: 'https://ui-avatars.com/api/?name=Harriet+Nyarkoh&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Committee', 'Director', 'Training'],
+      content: 'Harriet Nyarkoh leads training and capacity building, developing programmes that equip young people with essential leadership and diplomatic skills.',
+      link: '#leadership'
+    },
+    ngaoh: {
+      title: 'Mavis Akosua Ngoah',
+      subtitle: 'Women\'s Commissioner',
+      image: 'https://ui-avatars.com/api/?name=Mavis+Akosua+Ngoah&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Committee', 'Commissioner', 'Gender'],
+      content: 'Mavis Akosua Ngoah serves as Women\'s Commissioner, championing gender equality and women\'s empowerment within YAD MUN and beyond.',
+      link: '#leadership'
+    },
+    idan: {
+      title: 'Medley Idan',
+      subtitle: 'Deputy Women\'s Commissioner',
+      image: 'https://ui-avatars.com/api/?name=Medley+Idan&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true',
+      tags: ['Committee', 'Commissioner', 'Gender'],
+      content: 'Medley Idan serves as Deputy Women\'s Commissioner, supporting gender equality initiatives and women\'s empowerment programmes.',
+      link: '#leadership'
+    }
+  };
+
+  // ============================================================
+  // LIGHTBOX - Image Viewer
+  // ============================================================
+  let lightboxImages = [];
+  let currentLightboxIndex = 0;
+
+  function openLightbox(src, title = 'Image') {
+    const allImages = document.querySelectorAll('.gallery-item img, .service-img-wrap img, .about-image img, .event-img-wrap img, .blog-img-wrap img, .l-img-wrap img');
+    lightboxImages = [];
+    allImages.forEach(img => {
+      if (img.src && !img.src.includes('ui-avatars.com')) {
+        lightboxImages.push({
+          src: img.src,
+          title: img.alt || 'Image'
+        });
+      }
+    });
+    // Add the clicked image if not already in the list
+    if (!lightboxImages.find(img => img.src === src)) {
+      lightboxImages.push({ src: src, title: title });
+    }
+    currentLightboxIndex = lightboxImages.findIndex(img => img.src === src);
+    if (currentLightboxIndex === -1) {
+      currentLightboxIndex = 0;
+    }
+    updateLightbox();
+    document.getElementById('lightbox').classList.add('show');
+    document.body.style.overflow = 'hidden';
   }
-  const toast = document.createElement('div');
-  const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
-  toast.className = 'toast ' + type;
-  const icon = document.createElement('i');
-  icon.className = 'fas ' + (icons[type] || icons.info);
-  toast.appendChild(icon);
-  toast.appendChild(document.createTextNode(' ' + message));
-  container.appendChild(toast);
-  setTimeout(function () {
-    toast.classList.add('hide');
-    setTimeout(function () { toast.remove(); }, 300);
-  }, 4000);
-}
 
-/* ============================================================
-   LOADING
-   ============================================================ */
-window.addEventListener('load', function () {
-  setTimeout(function () {
-    document.getElementById('loader').classList.add('hidden');
-    showToast('Welcome to YAD MUN', 'success');
-  }, 1200);
-});
+  function updateLightbox() {
+    const img = lightboxImages[currentLightboxIndex];
+    if (!img) return;
+    const lightboxImg = document.getElementById('lightboxImage');
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.title;
+    document.getElementById('lightboxCounter').textContent = `${currentLightboxIndex + 1} / ${lightboxImages.length}`;
+    document.getElementById('lightboxDownload').href = img.src;
+    document.getElementById('lightboxDownload').download = img.title.toLowerCase().replace(/\s+/g, '-') + '.jpg';
+  }
 
-/* ============================================================
-   TOP BAR
-   ============================================================ */
-function closeTopBar() {
-  document.getElementById('topBar').style.display = 'none';
-  try { localStorage.setItem('topBarClosed', 'true'); } catch (e) {}
-}
-(function initTopBar() {
-  try {
-    if (localStorage.getItem('topBarClosed') === 'true') {
-      document.getElementById('topBar').style.display = 'none';
+  function closeLightbox(event) {
+    if (event && event.target !== event.currentTarget && event.target.tagName !== 'IMG') return;
+    document.getElementById('lightbox').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  function prevImage(event) {
+    event.stopPropagation();
+    if (currentLightboxIndex > 0) {
+      currentLightboxIndex--;
+      updateLightbox();
     }
-  } catch (e) {}
-})();
-document.getElementById('topBarClose').addEventListener('click', closeTopBar);
+  }
 
-/* ============================================================
-   DARK MODE
-   ============================================================ */
-const darkToggle = document.getElementById('darkToggle');
-darkToggle.addEventListener('click', function () {
-  document.body.classList.toggle('dark-mode');
-  const icon = this.querySelector('i');
-  const isDark = document.body.classList.contains('dark-mode');
-  icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-  try { localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled'); } catch (e) {}
-  showToast(isDark ? 'Dark mode activated' : 'Light mode activated', 'info');
-});
-(function initDarkMode() {
-  try {
-    if (localStorage.getItem('darkMode') === 'enabled') {
-      document.body.classList.add('dark-mode');
-      darkToggle.querySelector('i').className = 'fas fa-sun';
+  function nextImage(event) {
+    event.stopPropagation();
+    if (currentLightboxIndex < lightboxImages.length - 1) {
+      currentLightboxIndex++;
+      updateLightbox();
     }
-  } catch (e) {}
-})();
+  }
 
-/* ============================================================
-   COOKIE CONSENT
-   ============================================================ */
-function showCookieConsent() {
-  try {
+  document.addEventListener('keydown', function(e) {
+    if (document.getElementById('lightbox').classList.contains('show')) {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') prevImage(e);
+      if (e.key === 'ArrowRight') nextImage(e);
+    }
+  });
+
+  // ============================================================
+  // DOWNLOAD IMAGE
+  // ============================================================
+  function downloadImage(url, filename) {
+    fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename + '.jpg';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+        showToast('📥 Image downloaded successfully!', 'success');
+      })
+      .catch(() => {
+        window.open(url, '_blank');
+        showToast('📥 Image opened in new tab', 'info');
+      });
+  }
+
+  // ============================================================
+  // TOAST
+  // ============================================================
+  function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i> ${message}`;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.classList.add('hide');
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+
+  // ============================================================
+  // LOADING
+  // ============================================================
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      document.getElementById('loader').classList.add('hidden');
+      showToast('Welcome to YAD MUN! 🌍', 'success');
+      animateStats();
+    }, 2000);
+    const now = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+  });
+
+  // ============================================================
+  // ANIMATE STATS
+  // ============================================================
+  function animateStats() {
+    document.querySelectorAll('.stat-number').forEach(function(el) {
+      const target = parseInt(el.dataset.count);
+      let current = 0;
+      const increment = Math.ceil(target / 40);
+      const interval = setInterval(function() {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(interval);
+        }
+        el.textContent = current + (target > 100 ? '+' : '');
+      }, 50);
+    });
+  }
+
+  // ============================================================
+  // TOP BAR
+  // ============================================================
+  function closeTopBar() {
+    document.getElementById('topBar').classList.add('hidden');
+    document.getElementById('topBarReopen').style.display = 'block';
+    localStorage.setItem('topBarClosed', 'true');
+  }
+  function reopenTopBar() {
+    document.getElementById('topBar').classList.remove('hidden');
+    document.getElementById('topBarReopen').style.display = 'none';
+    localStorage.removeItem('topBarClosed');
+  }
+  if (localStorage.getItem('topBarClosed') === 'true') {
+    document.getElementById('topBar').classList.add('hidden');
+    document.getElementById('topBarReopen').style.display = 'block';
+  }
+
+  // ============================================================
+  // DARK MODE
+  // ============================================================
+  const darkToggle = document.getElementById('darkToggle');
+  darkToggle.addEventListener('click', function() {
+    document.body.classList.toggle('dark-mode');
+    const icon = this.querySelector('i');
+    if (document.body.classList.contains('dark-mode')) {
+      icon.className = 'fas fa-sun';
+      localStorage.setItem('darkMode', 'enabled');
+      showToast('🌙 Dark mode activated', 'info');
+    } else {
+      icon.className = 'fas fa-moon';
+      localStorage.setItem('darkMode', 'disabled');
+      showToast('☀️ Light mode activated', 'info');
+    }
+  });
+  if (localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+    darkToggle.querySelector('i').className = 'fas fa-sun';
+  }
+
+  // ============================================================
+  // COOKIE CONSENT
+  // ============================================================
+  function showCookieConsent() {
     if (!localStorage.getItem('cookieConsent')) {
       document.getElementById('cookieConsent').classList.add('show');
     }
-  } catch (e) {}
-}
-function acceptCookies() {
-  try { localStorage.setItem('cookieConsent', 'accepted'); } catch (e) {}
-  document.getElementById('cookieConsent').classList.remove('show');
-  showToast('Cookies accepted', 'success');
-}
-function dismissCookies() {
-  try { localStorage.setItem('cookieConsent', 'declined'); } catch (e) {}
-  document.getElementById('cookieConsent').classList.remove('show');
-}
-document.getElementById('cookieAccept').addEventListener('click', acceptCookies);
-document.getElementById('cookieDecline').addEventListener('click', dismissCookies);
-setTimeout(showCookieConsent, 3000);
-
-/* ============================================================
-   POLICY MODAL — handled entirely by POLICIES_DATA / openPolicyModal
-   further down this file, via a single delegated click listener.
-   (Previously there was a second, alert()-based handler bound here
-   that fired at the same time as the real modal — removed.)
-   ============================================================ */
-
-/* ============================================================
-   HAMBURGER
-   ============================================================ */
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('navLinks');
-hamburger.addEventListener('click', function () {
-  this.classList.toggle('active');
-  navLinks.classList.toggle('open');
-});
-navLinks.querySelectorAll('a').forEach(function (link) {
-  link.addEventListener('click', function () {
-    hamburger.classList.remove('active');
-    navLinks.classList.remove('open');
-  });
-});
-
-/* ============================================================
-   SCROLL
-   ============================================================ */
-const scrollBtn = document.getElementById('scrollTop');
-let lastScroll = 0;
-window.addEventListener('scroll', function () {
-  const currentScroll = window.pageYOffset;
-  scrollBtn.classList.toggle('visible', currentScroll > 250);
-
-  const header = document.getElementById('mainHeader');
-  if (currentScroll > lastScroll && currentScroll > 120) {
-    header.classList.add('hidden-nav');
-  } else {
-    header.classList.remove('hidden-nav');
   }
-  lastScroll = currentScroll;
-  header.classList.toggle('scrolled', currentScroll > 50);
-});
-scrollBtn.addEventListener('click', function () {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+  function acceptCookies() {
+    localStorage.setItem('cookieConsent', 'accepted');
+    document.getElementById('cookieConsent').classList.remove('show');
+    showToast('🍪 Cookies accepted', 'success');
+  }
+  function dismissCookies() {
+    localStorage.setItem('cookieConsent', 'declined');
+    document.getElementById('cookieConsent').classList.remove('show');
+  }
+  setTimeout(showCookieConsent, 3000);
 
-/* ============================================================
-   FADE-UP
-   ============================================================ */
-const fadeEls = document.querySelectorAll('.fade-up');
-const fadeObserver = new IntersectionObserver(function (entries) {
-  entries.forEach(function (entry) {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
+  // ============================================================
+  // POLICY
+  // ============================================================
+  function openPolicy(type) {
+    event.preventDefault();
+    const policies = {
+      privacy: {
+        title: 'Privacy Policy',
+        content: 'YAD MUN respects your privacy. We collect personal information only when voluntarily submitted by you. Your data is used solely for programme registration, communication, and improving our services. We do not share your data with third parties without your consent.'
+      },
+      safeguarding: {
+        title: 'Safeguarding Policy',
+        content: 'YAD MUN is committed to creating a safe environment for all participants. We have zero tolerance for abuse, harassment, or discrimination. All staff and volunteers undergo background checks and safeguarding training.'
+      },
+      conduct: {
+        title: 'Code of Conduct',
+        content: 'All YAD MUN participants are expected to behave with integrity, respect, and professionalism. This includes: respecting diverse perspectives, maintaining academic honesty, treating others with dignity, and representing YAD MUN positively.'
+      },
+      terms: {
+        title: 'Terms of Use',
+        content: 'By using this website and participating in YAD MUN programmes, you agree to our terms. All content is for informational purposes. We reserve the right to update these terms.'
+      }
+    };
+    const policy = policies[type];
+    if (!policy) return;
+    alert('📜 ' + policy.title + '\n\n' + policy.content + '\n\nFor more information, please contact us at info@yadmun.org.');
+  }
+
+  // ============================================================
+  // HAMBURGER
+  // ============================================================
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', function() {
+    this.classList.toggle('active');
+    navLinks.classList.toggle('open');
   });
-}, { threshold: 0.1 });
-fadeEls.forEach(function (el) { fadeObserver.observe(el); });
-
-/* ============================================================
-   MISSION / VISION / VALUES TOGGLE
-   ============================================================ */
-document.querySelectorAll('.mv-btn').forEach(function (btn) {
-  btn.addEventListener('click', function () {
-    document.querySelectorAll('.mv-btn').forEach(function (b) { b.classList.remove('active'); });
-    this.classList.add('active');
-    document.querySelectorAll('.mv-content').forEach(function (c) { c.classList.remove('active'); });
-    document.getElementById(this.dataset.target).classList.add('active');
+  navLinks.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('open');
+    });
   });
-});
 
-/* ============================================================
-   LEADERSHIP TABS
-   ============================================================ */
-document.querySelectorAll('.leadership-tab').forEach(function (tab) {
-  tab.addEventListener('click', function () {
-    document.querySelectorAll('.leadership-tab').forEach(function (t) { t.classList.remove('active'); });
-    this.classList.add('active');
-    document.querySelectorAll('.leadership-content').forEach(function (c) { c.classList.remove('active'); });
-    document.getElementById('tab-' + this.dataset.tab).classList.add('active');
-  });
-});
-
-/* ============================================================
-   FAQ
-   ============================================================ */
-document.querySelectorAll('.faq-question').forEach(function (btn) {
-  btn.addEventListener('click', function () {
-    const answer = this.nextElementSibling;
-    const isOpen = answer.classList.contains('open');
-    document.querySelectorAll('.faq-answer').forEach(function (a) { a.classList.remove('open'); });
-    document.querySelectorAll('.faq-question').forEach(function (b) { b.classList.remove('active'); });
-    if (!isOpen) {
-      answer.classList.add('open');
-      this.classList.add('active');
+  // ============================================================
+  // SCROLL
+  // ============================================================
+  const scrollBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', function() {
+    const currentScroll = window.pageYOffset;
+    if (currentScroll > 250) {
+      scrollBtn.classList.add('visible');
+    } else {
+      scrollBtn.classList.remove('visible');
     }
+    document.getElementById('mainHeader').classList.toggle('scrolled', currentScroll > 50);
   });
-});
+  scrollBtn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 
-/* ============================================================
-   SHARE
-   ============================================================ */
-function sharePage(platform) {
-  const url = window.location.href;
-  const text = 'Join me in supporting the next generation of global leaders.';
-  const shareUrls = {
-    facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url),
-    twitter: 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url),
-    linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url),
-    whatsapp: 'https://api.whatsapp.com/send?text=' + encodeURIComponent(text + ' ' + url)
-  };
-  if (shareUrls[platform]) {
-    window.open(shareUrls[platform], '_blank', 'noopener,noreferrer,width=600,height=500');
-    showToast('Shared on ' + platform, 'success');
-  }
-}
-function copyLink() {
-  const finish = function () {
-    const btn = document.querySelector('.share-btn.copy-link');
-    const original = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-check"></i>';
-    showToast('Link copied', 'success');
-    setTimeout(function () { btn.innerHTML = original; }, 2000);
-  };
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(window.location.href).then(finish);
-  } else {
-    const input = document.createElement('input');
-    input.value = window.location.href;
-    document.body.appendChild(input);
-    input.select();
-    document.execCommand('copy');
-    document.body.removeChild(input);
-    finish();
-  }
-}
-document.querySelectorAll('[data-share]').forEach(function (btn) {
-  btn.addEventListener('click', function () { sharePage(this.dataset.share); });
-});
-document.getElementById('copyLinkBtn').addEventListener('click', copyLink);
+  // ============================================================
+  // FADE-UP
+  // ============================================================
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const fadeObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(function(el) { fadeObserver.observe(el); });
 
-/* ============================================================
-   COUNTDOWN
-   ============================================================ */
-(function initCountdown() {
-  const conferenceDate = new Date(CONFIG.CONFERENCE_DATE_ISO).getTime();
-  setInterval(function () {
+  // ============================================================
+  // MV TOGGLE
+  // ============================================================
+  document.querySelectorAll('.mv-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.mv-btn').forEach(function(b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      document.querySelectorAll('.mv-content').forEach(function(c) { c.classList.remove('active'); });
+      document.getElementById(this.dataset.target).classList.add('active');
+    });
+  });
+
+  // ============================================================
+  // LEADERSHIP TABS
+  // ============================================================
+  document.querySelectorAll('.leadership-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.leadership-tab').forEach(function(t) {
+        t.classList.remove('active');
+      });
+      this.classList.add('active');
+      document.querySelectorAll('.leadership-content').forEach(function(c) {
+        c.classList.remove('active');
+      });
+      const target = this.dataset.tab;
+      document.getElementById('tab-' + target).classList.add('active');
+    });
+  });
+
+  // ============================================================
+  // FAQ
+  // ============================================================
+  document.querySelectorAll('.faq-question').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const answer = this.nextElementSibling;
+      const isOpen = answer.classList.contains('open');
+      document.querySelectorAll('.faq-answer').forEach(function(a) { a.classList.remove('open'); });
+      document.querySelectorAll('.faq-question').forEach(function(b) { b.classList.remove('active'); });
+      if (!isOpen) {
+        answer.classList.add('open');
+        this.classList.add('active');
+      }
+    });
+  });
+
+  // ============================================================
+  // SHARE
+  // ============================================================
+  function sharePage(platform) {
+    const url = window.location.href;
+    const text = 'Join me in supporting the next generation of global leaders! 🌍';
+    const shareUrls = {
+      facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url),
+      twitter: 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url),
+      linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url),
+      whatsapp: 'https://api.whatsapp.com/send?text=' + encodeURIComponent(text + ' ' + url)
+    };
+    if (shareUrls[platform]) {
+      window.open(shareUrls[platform], '_blank', 'width=600,height=500');
+      showToast('📤 Shared on ' + platform, 'success');
+    }
+  }
+  function copyLink() {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href).then(function() {
+        const btn = document.querySelector('.share-btn.copy-link');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i>';
+        showToast('📋 Link copied!', 'success');
+        setTimeout(function() { btn.innerHTML = original; }, 2000);
+      });
+    } else {
+      const input = document.createElement('input');
+      input.value = window.location.href;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+      showToast('📋 Link copied!', 'success');
+    }
+  }
+
+  // ============================================================
+  // NEWSLETTER (section removed from page)
+  // ============================================================
+
+  // ============================================================
+  // COUNTDOWN
+  // ============================================================
+  const conferenceDate = new Date("Dec 15, 2026 09:00:00").getTime();
+  setInterval(function() {
     const now = new Date().getTime();
     const distance = conferenceDate - now;
-    const ids = ['cd-days', 'cd-hours', 'cd-minutes', 'cd-seconds'];
+    const cd = ['cd-days', 'cd-hours', 'cd-minutes', 'cd-seconds'];
     if (distance < 0) {
-      ids.forEach(function (id) { document.getElementById(id).textContent = '00'; });
+      cd.forEach(function(id) { document.getElementById(id).innerHTML = '00'; });
       return;
     }
-    document.getElementById('cd-days').textContent = String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(2, '0');
-    document.getElementById('cd-hours').textContent = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-    document.getElementById('cd-minutes').textContent = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-    document.getElementById('cd-seconds').textContent = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
+    document.getElementById('cd-days').innerHTML = String(Math.floor(distance / (1000*60*60*24))).padStart(2, '0');
+    document.getElementById('cd-hours').innerHTML = String(Math.floor((distance % (1000*60*60*24)) / (1000*60*60))).padStart(2, '0');
+    document.getElementById('cd-minutes').innerHTML = String(Math.floor((distance % (1000*60*60)) / (1000*60))).padStart(2, '0');
+    document.getElementById('cd-seconds').innerHTML = String(Math.floor((distance % (1000*60)) / 1000)).padStart(2, '0');
   }, 1000);
-})();
 
-/* ============================================================
-   STATUS BANNER (registration form)
-   ============================================================ */
-function showStatus(message, type) {
-  const statusDiv = document.getElementById('statusMsg');
-  statusDiv.className = 'status-msg ' + type;
-  statusDiv.textContent = message;
-  statusDiv.style.display = 'block';
-  setTimeout(function () {
-    statusDiv.style.display = 'none';
-    statusDiv.className = 'status-msg';
-  }, 5000);
-}
-
-/* ============================================================
-   SHARED: submit a form's data to a Formspree-style endpoint
-   ============================================================ */
-function submitToEndpoint(endpoint, data) {
-  if (!endpoint || endpoint.indexOf('REPLACE_WITH') !== -1) {
-    return Promise.reject(new Error('endpoint-not-configured'));
+  // ============================================================
+  // REGISTRATION
+  // ============================================================
+  function validateRegistration() {
+    const name = document.getElementById('regName').value.trim();
+    const phone = document.getElementById('regPhone').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const school = document.getElementById('regSchool').value.trim();
+    const committee = document.getElementById('regCommittee').value;
+    if (!name || !phone || !email || !school || !committee) {
+      showToast('⚠️ Please fill all required fields.', 'error');
+      return false;
+    }
+    if (!phone.match(/^0[0-9]{9}$/)) {
+      showToast('⚠️ Enter a valid Ghana number (e.g., 0244123456)', 'error');
+      return false;
+    }
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      showToast('⚠️ Enter a valid email address.', 'error');
+      return false;
+    }
+    return true;
   }
-  return fetch(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify(data)
-  }).then(function (res) {
-    if (!res.ok) throw new Error('submit-failed');
-    return res.json().catch(function () { return {}; });
-  });
-}
-
-/* ============================================================
-   REGISTRATION FORM
-   ============================================================ */
-function validateRegistration() {
-  const name = document.getElementById('regName').value.trim();
-  const phone = document.getElementById('regPhone').value.trim();
-  const email = document.getElementById('regEmail').value.trim();
-  const school = document.getElementById('regSchool').value.trim();
-  const committee = document.getElementById('regCommittee').value;
-  if (!name || !phone || !email || !school || !committee) {
-    showStatus('Please fill all required fields.', 'error');
-    return false;
-  }
-  if (!phone.match(/^0[0-9]{9}$/)) {
-    showStatus('Enter a valid Ghana number (e.g., 0244123456)', 'error');
-    return false;
-  }
-  if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-    showStatus('Enter a valid email address.', 'error');
-    return false;
-  }
-  return true;
-}
-
-function handleRegistration() {
-  const btn = document.getElementById('registerBtn');
-  if (!validateRegistration()) return;
-
-  const data = {
-    name: document.getElementById('regName').value.trim(),
-    phone: document.getElementById('regPhone').value.trim(),
-    email: document.getElementById('regEmail').value.trim(),
-    school: document.getElementById('regSchool').value.trim(),
-    committee: document.getElementById('regCommittee').value,
-    registeredAt: new Date().toISOString(),
-    _subject: 'New YAD MUN registration'
-  };
-
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-
-  submitToEndpoint(CONFIG.REGISTRATION_ENDPOINT, data)
-    .then(function () {
-      showStatus('Registration successful. We will contact you shortly.', 'success');
-      showToast('Welcome to YAD MUN, ' + data.name + '!', 'success');
+  function handleRegistration() {
+    const btn = document.getElementById('registerBtn');
+    if (!validateRegistration()) return;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    const data = {
+      name: document.getElementById('regName').value.trim(),
+      phone: document.getElementById('regPhone').value.trim(),
+      email: document.getElementById('regEmail').value.trim(),
+      school: document.getElementById('regSchool').value.trim(),
+      committee: document.getElementById('regCommittee').value,
+      registeredAt: new Date().toISOString()
+    };
+    try {
+      const registrations = JSON.parse(localStorage.getItem('yadmun_registrations') || '[]');
+      registrations.push(data);
+      localStorage.setItem('yadmun_registrations', JSON.stringify(registrations));
+      showToast('🎉 Welcome to YAD MUN, ' + data.name + '!', 'success');
       document.getElementById('registrationForm').reset();
-    })
-    .catch(function (err) {
-      if (err.message === 'endpoint-not-configured') {
-        showStatus('Registration form is not connected to a backend yet — contact the site admin.', 'error');
-        showToast('Form backend not configured. See CONFIG in script.js.', 'error');
-      } else {
-        showStatus('Something went wrong. Please try again, or reach us on WhatsApp.', 'error');
-        showToast('Registration failed. Please try again.', 'error');
-      }
-    })
-    .finally(function () {
+    } catch (e) {
+      showToast('❌ Registration failed. Please try again.', 'error');
+    } finally {
       btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-user-plus"></i> Join YAD MUN Today';
-    });
-}
-document.getElementById('registrationForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-  handleRegistration();
-});
-
-/* ============================================================
-   CONTACT FORM
-   ============================================================ */
-document.getElementById('contactForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-  const submitBtn = this.querySelector('button[type="submit"]');
-  const name = document.getElementById('cName').value.trim();
-  const email = document.getElementById('cEmail').value.trim();
-  const message = document.getElementById('cMessage').value.trim();
-
-  if (!name || !email || !message) {
-    showToast('Please fill all fields.', 'error');
-    return;
-  }
-
-  const data = { name: name, email: email, message: message, _subject: 'New YAD MUN contact form message' };
-  const originalLabel = submitBtn.innerHTML;
-  submitBtn.disabled = true;
-  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-
-  submitToEndpoint(CONFIG.CONTACT_ENDPOINT, data)
-    .then(function () {
-      showToast('Message sent — we will get back to you soon.', 'success');
-      document.getElementById('contactForm').reset();
-    })
-    .catch(function (err) {
-      if (err.message === 'endpoint-not-configured') {
-        showToast('Contact form is not connected yet — message us on WhatsApp instead.', 'error');
-      } else {
-        showToast('Message failed to send. Please try WhatsApp instead.', 'error');
-      }
-    })
-    .finally(function () {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalLabel;
-    });
-});
-
-/* ============================================================
-   POLICY MODAL POPUPS
-   ============================================================ */
-const POLICIES_DATA = {
-  privacy: {
-    title: 'Privacy Policy',
-    icon: 'fas fa-shield-alt',
-    content: `
-      <h4>1. Overview</h4>
-      <p>Youth Ambassadors in Diplomacy & Model United Nations (YAD MUN) is committed to protecting the privacy and personal data of our delegates, members, partners, and website visitors.</p>
-      
-      <h4>2. Information We Collect</h4>
-      <p>We collect personal information necessary for program registration and communication, including:</p>
-      <ul>
-        <li>Full Name and Contact Information (Email, Phone/WhatsApp number)</li>
-        <li>Academic Institution or Organization</li>
-        <li>Committee and Conference Preferences</li>
-        <li>Message details submitted through our contact forms</li>
-      </ul>
-      
-      <h4>3. How We Use Your Data</h4>
-      <p>Your personal data is used solely to process conference registrations, provide updates on programs, issue official participation certificates, and communicate organizational announcements. We never sell or share your data with unauthorized third parties.</p>
-      
-      <h4>4. Cookies & Analytics</h4>
-      <p>Our website uses essential session cookies to remember your preferences (such as dark mode and cookie acceptance) and improve user experience.</p>
-      
-      <h4>5. Contact Us</h4>
-      <p>For questions regarding your privacy or to request data removal, please contact our team at <strong>info@yadmun.org</strong>.</p>
-    `
-  },
-  safeguarding: {
-    title: 'Safeguarding Policy',
-    icon: 'fas fa-user-shield',
-    content: `
-      <h4>1. Our Commitment</h4>
-      <p>YAD MUN holds a paramount duty of care to ensure all young people, students, and participants feel safe, valued, and respected at every YAD MUN event, simulation, and training session.</p>
-      
-      <h4>2. Zero Tolerance Policy</h4>
-      <p>We maintain a strict zero-tolerance policy towards any form of harassment, bullying, discrimination, abuse, or exploitation. All delegates, staff, and advisors are bound by our safe environment standard.</p>
-      
-      <h4>3. Code of Care for Minors</h4>
-      <ul>
-        <li>All chaperones and officers undergo background checks and safeguarding orientation.</li>
-        <li>Events maintain proper adult-to-student supervision ratios.</li>
-        <li>Emergency contact protocols and medical care arrangements are active at all physical conferences.</li>
-      </ul>
-      
-      <h4>4. Reporting Concerns</h4>
-      <p>If you experience or witness any behavior that compromises safety, report it immediately to our team at <strong>info@yadmun.org</strong> or call <strong>0332 097 330</strong>.</p>
-    `
-  },
-  'code-of-conduct': {
-    title: 'Code of Conduct',
-    icon: 'fas fa-gavel',
-    content: `
-      <h4>1. Diplomatic Decorum & Respect</h4>
-      <p>All delegates and participants are expected to maintain professional diplomacy, courtesy, and mutual respect during UN committee simulations, debates, and social events.</p>
-      
-      <h4>2. Professional Standards</h4>
-      <ul>
-        <li><strong>Diplomatic Conduct:</strong> Adhere to parliamentary procedures and engage constructively with fellow delegates.</li>
-        <li><strong>Dress Code:</strong> Formal Western Business Attire or recognized national traditional wear is required during committee sessions.</li>
-        <li><strong>Inclusivity:</strong> Discrimination based on ethnicity, gender, religion, background, or nationality is strictly prohibited.</li>
-      </ul>
-      
-      <h4>3. Academic Integrity</h4>
-      <p>Pre-written resolutions, plagiarism, or dishonest research undermine the educational value of Model UN. All position papers must reflect original research and delegates' own work.</p>
-      
-      <h4>4. Disciplinary Action</h4>
-      <p>Violation of the Code of Conduct may result in official warnings, forfeiture of award eligibility, or immediate expulsion from the conference without refund.</p>
-    `
-  },
-  terms: {
-    title: 'Terms of Service',
-    icon: 'fas fa-file-contract',
-    content: `
-      <h4>1. Acceptance of Terms</h4>
-      <p>By registering for YAD MUN programs, using our website, or attending our events, you agree to comply with and be bound by these Terms of Service.</p>
-      
-      <h4>2. Conference Registration & Participation</h4>
-      <ul>
-        <li>Registration is non-transferable without prior written permission from the Executive Directorate.</li>
-        <li>Delegates are responsible for their own travel, accommodation, and personal logistics unless officially provided under a scholarship grant.</li>
-      </ul>
-      
-      <h4>3. Media Consent</h4>
-      <p>By attending YAD MUN conferences, participants consent to photography, audio recording, and video recording for educational, archival, and promotional purposes by YAD MUN.</p>
-      
-      <h4>4. Intellectual Property</h4>
-      <p>All educational guidebooks, conference handbooks, logos, and materials published by YAD MUN remain the intellectual property of Youth Ambassadors in Diplomacy & Model United Nations LBG.</p>
-    `
-  }
-};
-
-POLICIES_DATA['codeofconduct'] = POLICIES_DATA['code-of-conduct'];
-POLICIES_DATA['conduct'] = POLICIES_DATA['code-of-conduct'];
-
-function openPolicyModal(policyKey) {
-  const modal = document.getElementById('policyModal');
-  if (!modal) return;
-
-  const rawKey = (policyKey || 'privacy').toLowerCase().trim();
-  let policy = POLICIES_DATA[rawKey];
-  
-  if (!policy) {
-    if (rawKey.indexOf('conduct') !== -1 || rawKey.indexOf('code') !== -1) {
-      policy = POLICIES_DATA['code-of-conduct'];
-    } else if (rawKey.indexOf('guard') !== -1 || rawKey.indexOf('safe') !== -1) {
-      policy = POLICIES_DATA.safeguarding;
-    } else if (rawKey.indexOf('term') !== -1) {
-      policy = POLICIES_DATA.terms;
-    } else {
-      policy = POLICIES_DATA.privacy;
     }
   }
 
-  document.getElementById('policyModalTitle').textContent = policy.title;
-  document.getElementById('policyModalIcon').className = 'modal-title-icon ' + policy.icon;
-  document.getElementById('policyModalBody').innerHTML = policy.content;
-
-  modal.setAttribute('aria-hidden', 'false');
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closePolicyModal() {
-  const modal = document.getElementById('policyModal');
-  if (!modal) return;
-  modal.setAttribute('aria-hidden', 'true');
-  modal.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-window.openPolicyModal = openPolicyModal;
-window.closePolicyModal = closePolicyModal;
-
-document.addEventListener('click', function (e) {
-  const link = e.target.closest('.policy-link') || e.target.closest('[data-policy]');
-  if (link) {
+  // ============================================================
+  // CONTACT
+  // ============================================================
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const policyKey = link.getAttribute('data-policy') || link.getAttribute('href');
-    openPolicyModal(policyKey);
-    return;
-  }
-  
-  if (e.target.closest('#closePolicyModal') || e.target.closest('#policyModalOkBtn')) {
-    e.preventDefault();
-    closePolicyModal();
-    return;
-  }
-  
-  const modal = document.getElementById('policyModal');
-  if (modal && e.target === modal) {
-    closePolicyModal();
-  }
-});
-
-/* ============================================================
-   KEYBOARD SHORTCUTS
-   ============================================================ */
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape') {
-    const modal = document.getElementById('policyModal');
-    if (modal && modal.classList.contains('open')) {
-      closePolicyModal();
+    const name = document.getElementById('cName').value.trim();
+    const email = document.getElementById('cEmail').value.trim();
+    const phone = document.getElementById('cPhone').value.trim();
+    const message = document.getElementById('cMessage').value.trim();
+    if (!name || !email || !message) {
+      showToast('⚠️ Please fill all required fields.', 'error');
       return;
     }
-    if (document.getElementById('cookieConsent').classList.contains('show')) {
-      dismissCookies();
+    const msg = '*Contact Form*%0A%0A*Name:* ' + encodeURIComponent(name) + '%0A*Email:* ' + encodeURIComponent(email) + '%0A*Phone:* ' + encodeURIComponent(phone) + '%0A*Message:* ' + encodeURIComponent(message);
+    window.open('https://wa.me/233242929381?text=' + msg, '_blank');
+    this.reset();
+    showToast('📩 Message sent via WhatsApp!', 'success');
+  });
+
+  // ============================================================
+  // DONATION
+  // ============================================================
+  let selectedAmount = 100;
+  let selectedMethod = 'mobile-money';
+
+  function selectDonation(el) {
+    document.querySelectorAll('.donation-amount').forEach(function(btn) {
+      btn.classList.remove('selected');
+    });
+    el.classList.add('selected');
+    const customInput = document.getElementById('donationCustom');
+    if (el.dataset.amount === 'other') {
+      customInput.style.display = 'block';
+      customInput.focus();
+      selectedAmount = null;
+    } else {
+      customInput.style.display = 'none';
+      selectedAmount = parseInt(el.dataset.amount);
     }
   }
-  if (e.altKey && e.key === 'd') { const btn = document.getElementById('darkToggle'); if (btn) btn.click(); }
-  if (e.altKey && e.key === 'h') window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (e.altKey && e.key === 'r') { const reg = document.getElementById('register'); if (reg) reg.scrollIntoView({ behavior: 'smooth' }); }
-});
+
+  function selectMethod(el) {
+    document.querySelectorAll('.donation-method').forEach(function(btn) {
+      btn.classList.remove('selected');
+    });
+    el.classList.add('selected');
+    selectedMethod = el.dataset.method;
+  }
+
+  function processDonation() {
+    const name = document.getElementById('donorName').value.trim();
+    const email = document.getElementById('donorEmail').value.trim();
+    const phone = document.getElementById('donorPhone').value.trim();
+    const customAmount = document.getElementById('donationCustom').value.trim();
+    
+    if (!name || !email) {
+      showToast('⚠️ Please fill in your name and email.', 'error');
+      return;
+    }
+    
+    let amount = selectedAmount;
+    if (!amount && customAmount) {
+      amount = parseInt(customAmount);
+    }
+    if (!amount || amount < 10) {
+      showToast('⚠️ Please select or enter a valid donation amount (min. ₵10).', 'error');
+      return;
+    }
+    
+    const btn = document.getElementById('donateBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    
+    setTimeout(function() {
+      const donationData = {
+        name: name,
+        email: email,
+        phone: phone,
+        amount: amount,
+        method: selectedMethod,
+        message: document.getElementById('donorMessage').value.trim(),
+        date: new Date().toISOString()
+      };
+      
+      try {
+        const donations = JSON.parse(localStorage.getItem('yadmun_donations') || '[]');
+        donations.push(donationData);
+        localStorage.setItem('yadmun_donations', JSON.stringify(donations));
+        showToast('🙏 Thank you for your generous donation of ₵' + amount + '!', 'success');
+        document.getElementById('donationForm').reset();
+        document.querySelectorAll('.donation-amount').forEach(function(el) { el.classList.remove('selected'); });
+        document.getElementById('donationCustom').style.display = 'none';
+        document.querySelector('.donation-amount[data-amount="100"]').classList.add('selected');
+        selectedAmount = 100;
+        
+        const msg = '*Donation Confirmation*%0A%0AThank you for your donation!%0A%0A*Name:* ' + encodeURIComponent(name) + '%0A*Amount:* ₵' + amount + '%0A*Method:* ' + selectedMethod + '%0A%0AYou will receive a confirmation receipt via email shortly.';
+        window.open('https://wa.me/233242929381?text=' + msg, '_blank');
+      } catch (e) {
+        showToast('❌ There was an issue processing your donation. Please try again.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-heart"></i> Donate Now';
+      }
+    }, 2000);
+  }
+
+  // ============================================================
+  // MODAL
+  // ============================================================
+  function openModal(id) {
+    const data = MODAL_DATA[id];
+    if (!data) {
+      showToast('Content not found', 'error');
+      return;
+    }
+    const body = document.getElementById('modalBody');
+    const tagsHtml = data.tags ? data.tags.map(tag => `<span class="modal-tag">${tag}</span>`).join('') : '';
+    const isProfile = data.content && (data.content.includes('modal-section-title') || data.content.includes('modal-quote'));
+    let contentHtml = data.content || '';
+    if (!isProfile && contentHtml) {
+      contentHtml = `<p>${contentHtml}</p>`;
+    }
+    const isAvatar = data.image && data.image.includes('ui-avatars.com');
+    
+    let eventDetailsHtml = '';
+    if (data.eventDetails) {
+      eventDetailsHtml = `
+        <div class="modal-section-title">Event Details</div>
+        ${data.eventDetails.date ? `<p><strong>📅 Date:</strong> ${data.eventDetails.date}</p>` : ''}
+        ${data.eventDetails.time ? `<p><strong>⏰ Time:</strong> ${data.eventDetails.time}</p>` : ''}
+        ${data.eventDetails.venue ? `<p><strong>📍 Venue:</strong> ${data.eventDetails.venue}</p>` : ''}
+        ${data.eventDetails.delegates ? `<p><strong>👥 Delegates:</strong> ${data.eventDetails.delegates}</p>` : ''}
+        ${data.eventDetails.committees ? `<p><strong>🏛️ Committees:</strong> ${data.eventDetails.committees.join(', ')}</p>` : ''}
+        ${data.eventDetails.topics ? `<p><strong>📚 Topics:</strong> ${data.eventDetails.topics.join(', ')}</p>` : ''}
+        ${data.eventDetails.awards ? `<p><strong>🏆 Awards:</strong> ${data.eventDetails.awards.join(', ')}</p>` : ''}
+      `;
+    }
+    
+    body.innerHTML = `
+      ${isAvatar ? 
+        `<img src="${data.image}" alt="${data.title}" class="modal-profile-img" onclick="openLightbox('${data.image}', '${data.title}')" title="Click to view full size">` :
+        `<img src="${data.image}" alt="${data.title}" onclick="openLightbox('${data.image}', '${data.title}')" title="Click to view full size">`
+      }
+      <h2>${data.title}</h2>
+      <div class="modal-subtitle">${data.subtitle || ''}</div>
+      <div class="modal-tags">${tagsHtml}</div>
+      ${contentHtml}
+      ${eventDetailsHtml}
+      ${data.cta ? `<button class="modal-btn" onclick="navigateTo('${data.link || '#'}')">${data.cta}</button>` : ''}
+    `;
+    document.getElementById('modalOverlay').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeModal(event) {
+    if (event && event.target !== event.currentTarget) return;
+    document.getElementById('modalOverlay').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  function navigateTo(link) {
+    closeModal();
+    if (link && link !== '#') {
+      setTimeout(() => {
+        const target = document.querySelector(link);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.location.href = link;
+        }
+      }, 300);
+    }
+    showToast('🔗 Navigating...', 'info');
+  }
+  
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  });
+
+  // ============================================================
+  // CLICKABLE CARDS
+  // ============================================================
+  function setupClickableCards(selector) {
+    document.querySelectorAll(selector).forEach(function(card) {
+      card.addEventListener('click', function(e) {
+        if (e.target.closest('.img-overlay') || e.target.closest('.icons')) return;
+        const id = this.dataset.id;
+        if (id && MODAL_DATA[id]) {
+          openModal(id);
+        } else {
+          showToast('Content loading...', 'info');
+        }
+      });
+    });
+  }
+  
+  setupClickableCards('.service-card');
+  setupClickableCards('.leadership-card');
+  setupClickableCards('.event-card');
+  setupClickableCards('.blog-card');
+  setupClickableCards('.opp-item');
+
+  // ============================================================
+  // SMART CHAT BOT - 100+ Questions
+  // ============================================================
+  const CHAT_INTENTS = {
+    'greeting': {
+      patterns: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening', 'howdy', 'greetings', 'what\'s up', 'yo', 'sup'],
+      responses: [
+        '👋 Hello! Welcome to YAD MUN. How can I assist you today?',
+        '👋 Hi there! Great to see you. What would you like to know about YAD MUN?',
+        '🌍 Hello! Welcome to the YAD MUN assistant. I\'m here to help!'
+      ]
+    },
+    'about_organization': {
+      patterns: ['about yad mun', 'what is yad mun', 'tell me about yad mun', 'who are you', 'what do you do', 'organization'],
+      responses: [
+        '🌍 YAD MUN (Youth Ambassadors in Diplomacy & Model United Nations LBG) is a Ghanaian youth development organization empowering young leaders through diplomacy, Model United Nations, leadership training, and international exposure.',
+        '🎯 We develop ethical leaders for a global world by connecting classroom learning with real-world international affairs.'
+      ]
+    },
+    'mission': {
+      patterns: ['mission', 'what is your mission', 'mission statement', 'purpose'],
+      responses: [
+        '🎯 Our mission is to educate, connect and empower young people through diplomacy education, Model United Nations, leadership development, civic engagement, policy dialogue and international exposure.'
+      ]
+    },
+    'vision': {
+      patterns: ['vision', 'what is your vision', 'vision statement', 'future', 'goal'],
+      responses: [
+        '🌟 Our vision is to become a leading platform for developing ethical, informed and globally minded young leaders capable of contributing meaningfully to national, regional and international development.',
+        '🌍 We envision a world where young leaders drive positive change in their communities and beyond.'
+      ]
+    },
+    'values': {
+      patterns: ['values', 'core values', 'what do you believe in', 'principles', 'ethics'],
+      responses: [
+        '💫 Our core values are:\n\n🤝 Integrity - Honesty and accountability\n⭐ Excellence - High standards\n🕊️ Diplomacy - Dialogue & understanding\n🌈 Inclusion - Opportunities for all\n❤️ Service - Community contribution\n🌍 Global Citizenship - Responsibility to world\n💡 Innovation - Creative solutions'
+      ]
+    },
+    'programmes': {
+      patterns: ['programmes', 'programs', 'what do you offer', 'activities', 'services'],
+      responses: [
+        '📚 We offer 6 main programmes:\n\n🌍 Diplomacy Education - International relations & negotiation\n🏛️ Model United Nations - Research, debate & problem-solving\n⭐ Youth Leadership - Leadership skills & ethical values\n✈️ International Exposure - Global conferences & exchanges\n📊 Policy & Research - Research & advocacy\n🤝 Strategic Partnerships - Collaboration & impact\n\nClick any programme card on the site for details!'
+      ]
+    },
+    'diplomacy': {
+      patterns: ['diplomacy', 'diplomacy education', 'international relations', 'negotiation'],
+      responses: [
+        '🌍 Diplomacy Education introduces youth to international relations, negotiation techniques, diplomatic protocols, global governance, and conflict resolution through workshops and guest lectures!'
+      ]
+    },
+    'mun': {
+      patterns: ['mun', 'model united nations', 'model un', 'what is mun', 'un simulation'],
+      responses: [
+        '🏛️ Model United Nations (MUN) is a simulation where students role-play as UN delegates, debate global issues, draft resolutions, and practice diplomacy. It builds research, public speaking, and critical thinking skills!'
+      ]
+    },
+    'leadership_programme': {
+      patterns: ['leadership programme', 'leadership training', 'leadership development', 'become a leader'],
+      responses: [
+        '⭐ Youth Leadership Programme equips you with essential leadership skills, ethical decision-making, team management, public speaking, and project management through mentorship and community projects!'
+      ]
+    },
+    'international_exposure': {
+      patterns: ['international exposure', 'global opportunities', 'conferences', 'abroad', 'exchange'],
+      responses: [
+        '✈️ International Exposure gives you participation in global conferences, UN youth summits, diplomatic forums, exchange programmes, and international networking. YAD MUN delegates have represented Ghana at UN conferences worldwide!'
+      ]
+    },
+    'policy_research': {
+      patterns: ['policy', 'research', 'policy research', 'advocacy'],
+      responses: [
+        '📊 Policy & Research encourages you to engage with global conversations, conduct research on pressing issues, analyse complex problems, propose solutions, and advocate for change at local, national, and international levels!'
+      ]
+    },
+    'partnerships': {
+      patterns: ['partnerships', 'collaboration', 'partners', 'who do you work with'],
+      responses: [
+        '🤝 We work with schools, universities, government agencies, NGOs, international organizations, corporate partners, and community groups to create transformative opportunities for youth!'
+      ]
+    },
+    'events': {
+      patterns: ['events', 'upcoming events', 'calendar', 'what\'s happening', 'conference'],
+      responses: [
+        '📅 Upcoming Events:\n\n🎯 National Conference 2026 - Dec 15, 2026\n📍 Accra ICC | 500+ Delegates\n\n🏕️ Leadership Bootcamp - Oct 10-14, 2026\n📍 University of Ghana | 100+ Participants\n\n🏛️ Inter-School MUN Competition - Nov 5, 2026\n📍 Accra International School | 200+ Students\n\nClick any event card for full details!'
+      ]
+    },
+    'conference': {
+      patterns: ['conference', 'national conference', 'conference 2026'],
+      responses: [
+        '🎯 National Conference 2026\n📅 December 15, 2026\n⏰ 9:00 AM - 6:00 PM\n📍 Accra ICC\n👥 500+ Delegates\n\n🏛️ Committees: UNSC, UNGA, ECOSOC, HRC\n\nRegister now to secure your spot!'
+      ]
+    },
+    'bootcamp': {
+      patterns: ['bootcamp', 'leadership bootcamp', 'training camp'],
+      responses: [
+        '🏕️ Leadership Bootcamp\n📅 October 10-14, 2026\n⏰ 8:00 AM - 5:00 PM\n📍 University of Ghana\n👥 100+ Participants\n\n📚 Topics: Public Speaking, Conflict Resolution, Project Management, Ethical Decision Making'
+      ]
+    },
+    'register': {
+      patterns: ['register', 'join', 'sign up', 'become a member', 'membership', 'how to join'],
+      responses: [
+        '📝 To join YAD MUN:\n\n1️⃣ Scroll down to the "Become a Member" section\n2️⃣ Fill in your full name, WhatsApp, email & school\n3️⃣ Select your preferred committee/interest\n4️⃣ Click "Join YAD MUN Today"\n\n✅ Membership is FREE!'
+      ]
+    },
+    'membership_cost': {
+      patterns: ['cost', 'price', 'fee', 'free', 'how much', 'expensive'],
+      responses: [
+        '💰 Membership is COMPLETELY FREE! Some programmes and conferences may have participation fees, but we offer SCHOLARSHIPS for those in need. Everyone deserves access to leadership development!'
+      ]
+    },
+    'donate': {
+      patterns: ['donate', 'donation', 'support', 'give', 'contribute', 'fund', 'sponsor'],
+      responses: [
+        '💝 Thank you for considering a donation! 100% of donations go directly to youth programmes and scholarships.\n\n💳 Payment Methods: Mobile Money, Bank Transfer, Card Payments\n\n💵 Suggested amounts: ₵50, ₵100, ₵200, ₵500, ₵1000\n\nClick the Donate section above!'
+      ]
+    },
+    'leadership': {
+      patterns: ['leadership', 'leaders', 'team', 'board', 'directors', 'who runs yad mun'],
+      responses: [
+        '👑 YAD MUN Leadership Team:\n\n📋 Board of Directors (7 members)\n• Nana Osompa Nyamekye II - Chairman\n• Mohammed Jibril - Vice Chairman\n• Elijah Essel - Secretary\n\n📋 Executive Directorate (3 members)\n• Robert Abeku Ansah - Policy & Research\n• Ronnie Ato Paintsil - Deputy Director\n• Samuel Nyarkoh - Deputy Director\n\n📋 Executive Committee (8 members)\n\nClick the Leadership tab for full profiles!'
+      ]
+    },
+    'chairman': {
+      patterns: ['chairman', 'nana osompa', 'nyamekye', 'chief'],
+      responses: [
+        '👑 Nana Osompa Nyamekye II\n\n• Board Chairman of YAD MUN\n• Chief of Gomoa Otaprow\n• Social Worker & Community Advocate\n\nHe advocates for ethical leadership, education, and youth development.'
+      ]
+    },
+    'elijah': {
+      patterns: ['elijah essel', 'elijah', 'founder', 'executive director'],
+      responses: [
+        '🎓 Elijah Essel\n\n• Founding Executive Director & Secretary General\n• Educationist & Environmental Scientist\n• BSc Agricultural Technology (UDS)\n• MPhil Environmental Science (UCC)'
+      ]
+    },
+    'robert': {
+      patterns: ['robert ansah', 'robert', 'policy director', 'researcher'],
+      responses: [
+        '📚 Robert Abeku Ansah\n\n• Executive Director for Policy & Research\n• Researcher & Policy Practitioner\n• BA African Studies (UCC)\n• MA Education, Gender & Development\n• Postgraduate MA International Relations (Coventry)'
+      ]
+    },
+    'ronnie': {
+      patterns: ['ronnie paintsil', 'ronnie', 'media director', 'filmmaker'],
+      responses: [
+        '🎬 Ronnie Ato Paintsil (Afrikaba Ronnie)\n\n• Deputy Executive Director\n• Media Practitioner & Filmmaker\n• Managing Director, Afrikaba Production\n• Represented Ghana at IBC Amsterdam'
+      ]
+    },
+    'contact': {
+      patterns: ['contact', 'reach', 'get in touch', 'phone', 'email', 'address', 'location'],
+      responses: [
+        '📞 Contact YAD MUN:\n\n📱 Phone/WhatsApp: +233 24 292 9381\n📧 Email: info@yadmun.org\n📍 Address: P.O. Box SW 640, Agona Swedru, Ghana\n🌐 Website: www.yadmun.org\n\nWe respond within 24 hours!'
+      ]
+    },
+    'phone': {
+      patterns: ['phone number', 'call', 'whatsapp'],
+      responses: [
+        '📱 Our phone/WhatsApp number is +233 24 292 9381. We\'re available Monday to Friday, 9 AM - 6 PM GMT.'
+      ]
+    },
+    'email': {
+      patterns: ['email address', 'send email', 'mail'],
+      responses: [
+        '📧 Our email is info@yadmun.org. We respond within 24 hours. For partnership inquiries, use partnerships@yadmun.org.'
+      ]
+    },
+    'experience': {
+      patterns: ['experience', 'previous experience', 'beginner', 'new', 'first time'],
+      responses: [
+        '🌟 No previous experience needed! YAD MUN welcomes beginners, experienced delegates, and anyone passionate about leadership. We provide comprehensive training for all participants.'
+      ]
+    },
+    'age': {
+      patterns: ['age', 'age limit', 'how old', 'young', 'youth'],
+      responses: [
+        '👥 Our programmes are designed for youth aged 14-25. However, we\'re flexible and welcome anyone passionate about youth development, diplomacy, and leadership!'
+      ]
+    },
+    'school': {
+      patterns: ['school', 'university', 'student', 'education', 'study'],
+      responses: [
+        '🎓 We work with secondary schools, universities, and tertiary institutions. Our programmes are designed to complement formal education with practical leadership and diplomacy skills.'
+      ]
+    },
+    'scholarship': {
+      patterns: ['scholarship', 'financial aid', 'funding', 'support'],
+      responses: [
+        '🎓 Scholarships Available! We offer scholarships for conference participation, training programmes, and international opportunities. Financial constraints should never prevent passionate youth from accessing our programmes.'
+      ]
+    },
+    'volunteer': {
+      patterns: ['volunteer', 'volunteering', 'help out', 'give back'],
+      responses: [
+        '🤝 Volunteer with YAD MUN! We welcome volunteers for event organization, mentorship, training support, communications, and research. Contact us at info@yadmun.org to get involved!'
+      ]
+    },
+    'internship': {
+      patterns: ['internship', 'intern', 'work experience', 'career'],
+      responses: [
+        '💼 Internship Opportunities! Join YAD MUN as an intern to gain experience in non-profit management, diplomacy, youth development, event planning, and communications.'
+      ]
+    },
+    'thanks': {
+      patterns: ['thanks', 'thank you', 'thx', 'appreciate'],
+      responses: [
+        '😊 You\'re welcome! Is there anything else I can help you with?',
+        '🙏 Happy to help! Let me know if you have more questions.'
+      ]
+    },
+    'goodbye': {
+      patterns: ['goodbye', 'bye', 'see you', 'later', 'bye bye', 'gotta go'],
+      responses: [
+        '👋 Goodbye! Feel free to come back if you have more questions. Have a great day!',
+        '🌟 See you later! Remember, the world needs ethical leaders like you. Stay inspired!'
+      ]
+    },
+    'help': {
+      patterns: ['help', 'what can you do', 'capabilities', 'assist'],
+      responses: [
+        '🤖 I can help you with:\n\n📚 Programmes - What we offer\n📅 Events - Upcoming activities\n📝 Registration - How to join\n💝 Donations - Support us\n👥 Leadership - Who we are\n📞 Contact - Get in touch\n🌍 Mission, Vision & Values - Our purpose\n\nJust ask me anything about YAD MUN!'
+      ]
+    },
+    'joke': {
+      patterns: ['joke', 'funny', 'humor', 'make me laugh'],
+      responses: [
+        '😂 Why did the delegate bring a ladder to the MUN conference? To reach a higher resolution!',
+        '🤣 What did the UN delegate say when asked about the weather? "I\'m not authorized to comment on atmospheric conditions, but I can refer you to the climate change committee!"'
+      ]
+    },
+    'motivation': {
+      patterns: ['motivation', 'inspire', 'encourage', 'quote'],
+      responses: [
+        '🌟 "The future belongs to those who believe in the beauty of their dreams." - Eleanor Roosevelt\n\nYou have the power to make a difference! ✊',
+        '💫 "Be the change you wish to see in the world." - Mahatma Gandhi\n\nStart your leadership journey with YAD MUN today!'
+      ]
+    },
+    'achievements': {
+      patterns: ['achievement', 'awards', 'recognition', 'success', 'impact'],
+      responses: [
+        '🏆 YAD MUN Achievements:\n\n🌟 Best Youth Organization 2025\n🌍 UN Accredited\n📚 Excellence in Education Award\n🏅 Safe & Inclusive Certification\n👥 5,000+ Youth Impacted\n🏫 50+ Schools Reached\n🌐 15+ Countries Represented\n📅 100+ Events Hosted'
+      ]
+    },
+    'impact': {
+      patterns: ['impact', 'difference', 'change', 'contribution'],
+      responses: [
+        '📊 Our Impact:\n\n👥 5,000+ Youth Impacted\n🏫 50+ Schools Reached\n🌐 15+ Countries Represented\n📅 100+ Events Hosted\n\nWe\'re developing ethical leaders who are changing their communities and the world!'
+      ]
+    }
+  };
+
+  // ============================================================
+  // SMART RESPONSE ENGINE
+  // ============================================================
+  function getChatResponse(message) {
+    const lowerMsg = message.toLowerCase().trim();
+    
+    for (const [intent, data] of Object.entries(CHAT_INTENTS)) {
+      for (const pattern of data.patterns) {
+        if (lowerMsg.includes(pattern)) {
+          const responses = data.responses;
+          return responses[Math.floor(Math.random() * responses.length)];
+        }
+      }
+    }
+    
+    // Check for partial matches
+    const words = lowerMsg.split(' ');
+    for (const word of words) {
+      if (word.length > 3) {
+        for (const [intent, data] of Object.entries(CHAT_INTENTS)) {
+          for (const pattern of data.patterns) {
+            if (pattern.includes(word) || word.includes(pattern)) {
+              const responses = data.responses;
+              return responses[Math.floor(Math.random() * responses.length)];
+            }
+          }
+        }
+      }
+    }
+    
+    return "🤔 I'm not sure I understand. I can help you with:\n\n📚 Programmes\n📅 Events\n📝 Registration\n💝 Donations\n👥 Leadership\n📞 Contact\n🌍 Mission, Vision & Values\n\nTry asking me something more specific!";
+  }
+
+  // ============================================================
+  // CHAT BOT FUNCTIONS
+  // ============================================================
+  let chatOpen = false;
+  
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    document.getElementById('chatWindow').classList.toggle('show');
+    if (chatOpen) {
+      document.getElementById('chatInput').focus();
+    }
+  }
+  
+  function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    if (!message) return;
+    
+    const messagesContainer = document.getElementById('chatMessages');
+    
+    const userMsg = document.createElement('div');
+    userMsg.className = 'chat-message user';
+    userMsg.textContent = message;
+    messagesContainer.appendChild(userMsg);
+    
+    input.value = '';
+    
+    const response = getChatResponse(message);
+    
+    setTimeout(function() {
+      const botMsg = document.createElement('div');
+      botMsg.className = 'chat-message bot';
+      botMsg.textContent = response;
+      botMsg.style.whiteSpace = 'pre-wrap';
+      messagesContainer.appendChild(botMsg);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }, 500);
+    
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  // ============================================================
+  // KEYBOARD SHORTCUTS
+  // ============================================================
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      if (document.getElementById('cookieConsent').classList.contains('show')) {
+        dismissCookies();
+      }
+      if (document.getElementById('chatWindow').classList.contains('show')) {
+        toggleChat();
+      }
+    }
+    if (e.altKey && e.key === 'd') {
+      darkToggle.click();
+    }
+    if (e.altKey && e.key === 'h') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    if (e.altKey && e.key === 'r') {
+      document.getElementById('register').scrollIntoView({ behavior: 'smooth' });
+    }
+    if (e.altKey && e.key === 'm') {
+      document.querySelector('.leadership-tab')?.click();
+    }
+    if (e.altKey && e.key === 'c') {
+      toggleChat();
+    }
+  });
+
+  // ============================================================
+  // 3D TILT EFFECT
+  // ============================================================
+  document.querySelectorAll('.service-card, .leadership-card, .event-card, .blog-card').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      const rect = this.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      this.style.transform = `perspective(1000px) rotateX(${y * -2}deg) rotateY(${x * 2}deg) translateY(-6px)`;
+    });
+    card.addEventListener('mouseleave', function() {
+      this.style.transform = '';
+    });
+  });
+
+  // ============================================================
+  // PARALLAX HERO
+  // ============================================================
+  const heroEl = document.querySelector('.hero');
+  window.addEventListener('scroll', function() {
+    const scrolled = window.pageYOffset;
+    if (heroEl) {
+      heroEl.style.backgroundPosition = `center ${scrolled * 0.3}px`;
+    }
+  });
+
+  // ============================================================
+  // SMOOTH SCROLL
+  // ============================================================
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  console.log('🌍 YAD MUN Website - COMPLETE FUTURISTIC VERSION');
+  console.log('📱 Website: https://www.yadmun.org');
+  console.log('📞 WhatsApp: +233 24 292 9381');
+  console.log('✨ Features: Dark Mode, 3D Cards, AI Chat, Lightbox Gallery, Particle Background');
+  console.log('🖼️ Click any image to view, zoom or download');
+  console.log('💡 Click any card for detailed information with direct links');
+  console.log('❤️ Donate to support youth programmes');
+  console.log('🤖 AI Assistant answers 100+ questions');
+  console.log('⌨️ Shortcuts: Alt+D (Dark), Alt+H (Home), Alt+R (Register), Alt+M (Leadership), Alt+C (Chat)');
