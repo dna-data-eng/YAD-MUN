@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#003087" />
+  <meta name="theme-color" content="#1B4079" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   
   <!-- ===== SEO ===== -->
@@ -17,10 +17,10 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.yadmun.org" />
   
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80' style='fill:%23D4AF37;'>🌍</text></svg>" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80' style='fill:%23E8892E;'>🌍</text></svg>" />
   
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
   <link rel="stylesheet" href="styles.css" />
@@ -190,7 +190,7 @@
     <div class="services-grid">
       <div class="service-card" data-type="programme" data-id="diplomacy">
         <div class="service-img-wrap">
-          <img src="./images/photo-06.jpeg" alt="Diplomacy" loading="lazy">
+          <img src="./images/photo-06.jpeg" alt="Diplomacy" class="service-img" loading="lazy">
           <div class="img-overlay">
             <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/photo-06.jpeg', 'Diplomacy Education')"></i>
             <i class="fas fa-download" onclick="event.stopPropagation(); downloadImage('./images/photo-06.jpeg', 'diplomacy-education')"></i>
@@ -204,7 +204,7 @@
       </div>
       <div class="service-card" data-type="programme" data-id="mun">
         <div class="service-img-wrap">
-          <img src="./images/photo-17.jpeg" alt="Model UN" loading="lazy">
+          <img src="./images/photo-17.jpeg" alt="Model UN" class="service-img" loading="lazy">
           <div class="img-overlay">
             <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/photo-17.jpeg', 'Model United Nations')"></i>
             <i class="fas fa-download" onclick="event.stopPropagation(); downloadImage('./images/photo-17.jpeg', 'model-un')"></i>
@@ -218,7 +218,7 @@
       </div>
       <div class="service-card" data-type="programme" data-id="leadership">
         <div class="service-img-wrap">
-          <img src="./images/photo-20.jpeg" alt="Leadership" loading="lazy">
+          <img src="./images/photo-20.jpeg" alt="Leadership" class="service-img" loading="lazy">
           <div class="img-overlay">
             <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/photo-20.jpeg', 'Youth Leadership')"></i>
             <i class="fas fa-download" onclick="event.stopPropagation(); downloadImage('./images/photo-20.jpeg', 'youth-leadership')"></i>
@@ -232,7 +232,7 @@
       </div>
       <div class="service-card" data-type="programme" data-id="international">
         <div class="service-img-wrap">
-          <img src="./images/photo-14.jpeg" alt="International" loading="lazy">
+          <img src="./images/photo-14.jpeg" alt="International" class="service-img" loading="lazy">
           <div class="img-overlay">
             <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/photo-14.jpeg', 'International Exposure')"></i>
             <i class="fas fa-download" onclick="event.stopPropagation(); downloadImage('./images/photo-14.jpeg', 'international-exposure')"></i>
@@ -246,7 +246,7 @@
       </div>
       <div class="service-card" data-type="programme" data-id="policy">
         <div class="service-img-wrap">
-          <img src="./images/photo-04.jpeg" alt="Policy" loading="lazy">
+          <img src="./images/photo-04.jpeg" alt="Policy" class="service-img" loading="lazy">
           <div class="img-overlay">
             <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/photo-04.jpeg', 'Policy & Research')"></i>
             <i class="fas fa-download" onclick="event.stopPropagation(); downloadImage('./images/photo-04.jpeg', 'policy-research')"></i>
@@ -260,7 +260,7 @@
       </div>
       <div class="service-card" data-type="programme" data-id="partnerships">
         <div class="service-img-wrap">
-          <img src="./images/photo-12.jpeg" alt="Partnerships" loading="lazy">
+          <img src="./images/photo-12.jpeg" alt="Partnerships" class="service-img" loading="lazy">
           <div class="img-overlay">
             <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/photo-12.jpeg', 'Strategic Partnerships')"></i>
             <i class="fas fa-download" onclick="event.stopPropagation(); downloadImage('./images/photo-12.jpeg', 'strategic-partnerships')"></i>
@@ -329,9 +329,9 @@
       <div class="leadership-card-grid">
         <div class="leadership-card" data-type="leader" data-id="chairman">
           <div class="l-img-wrap">
-            <img src="./images/Nana Osumpa ii.jpeg" alt="Nana Osompa Nyamekye II">
+            <img src="./images/Nana Osumpa ii.jpeg" alt="Nana Osompa Nyamekye II" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Nana+Osompa+Nyamekye+II&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Nana Osompa Nyamekye II')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/Nana Osumpa ii.jpeg', 'Nana Osompa Nyamekye II')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -342,9 +342,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="essel">
           <div class="l-img-wrap">
-            <img src="./images/Elijah Essel.jpeg" alt="Elijah Essel">
+            <img src="./images/Elijah Essel.jpeg" alt="Elijah Essel" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Elijah+Essel&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Elijah Essel')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/Elijah Essel.jpeg', 'Elijah Essel')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -355,9 +355,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="jibril">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Mohammed+Jibril&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Mohammed Jibril">
+            <img src="https://ui-avatars.com/api/?name=Mohammed+Jibril&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Mohammed Jibril" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Mohammed+Jibril&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Mohammed Jibril')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Mohammed+Jibril&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Mohammed Jibril')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -368,9 +368,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="ofosu">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Eugene+Ofosu&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Eugene Ofosu">
+            <img src="https://ui-avatars.com/api/?name=Eugene+Ofosu&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Eugene Ofosu" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Eugene+Ofosu&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Eugene Ofosu')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Eugene+Ofosu&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Eugene Ofosu')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -381,9 +381,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="baidoo">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Maxwell+Kwesi+Baidoo&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Maxwell Kwesi Baidoo">
+            <img src="https://ui-avatars.com/api/?name=Maxwell+Kwesi+Baidoo&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Maxwell Kwesi Baidoo" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Maxwell+Kwesi+Baidoo&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Maxwell Kwesi Baidoo')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Maxwell+Kwesi+Baidoo&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Maxwell Kwesi Baidoo')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -394,9 +394,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="yeboah">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Patrick+Yeboah&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Patrick Yeboah">
+            <img src="https://ui-avatars.com/api/?name=Patrick+Yeboah&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Patrick Yeboah" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Patrick+Yeboah&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Patrick Yeboah')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Patrick+Yeboah&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Patrick Yeboah')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -407,9 +407,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="baah">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Israel+Otsieku+Baah&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Israel Otsieku Baah">
+            <img src="https://ui-avatars.com/api/?name=Israel+Otsieku+Baah&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Israel Otsieku Baah" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Israel+Otsieku+Baah&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Israel Otsieku Baah')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Israel+Otsieku+Baah&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Israel Otsieku Baah')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -426,9 +426,9 @@
       <div class="leadership-card-grid">
         <div class="leadership-card" data-type="leader" data-id="ansah">
           <div class="l-img-wrap">
-            <img src="./images/Robert Ansah.jpeg" alt="Robert Abeku Ansah">
+            <img src="./images/Robert Ansah.jpeg" alt="Robert Abeku Ansah" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Robert+Abeku+Ansah&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Robert Abeku Ansah')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/Robert Ansah.jpeg', 'Robert Abeku Ansah')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -439,9 +439,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="paintsil">
           <div class="l-img-wrap">
-            <img src="./images/Ronnie Ato Pentsil.jpeg" alt="Ronnie Ato Paintsil">
+            <img src="./images/Ronnie Ato Pentsil.jpeg" alt="Ronnie Ato Paintsil" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Ronnie+Ato+Paintsil&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Ronnie Ato Paintsil')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/Ronnie Ato Pentsil.jpeg', 'Ronnie Ato Paintsil')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -452,9 +452,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="nyarkoh">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Samuel+Nyarkoh&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Samuel Nyarkoh">
+            <img src="https://ui-avatars.com/api/?name=Samuel+Nyarkoh&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Samuel Nyarkoh" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Samuel+Nyarkoh&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Samuel Nyarkoh')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Samuel+Nyarkoh&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Samuel Nyarkoh')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -471,9 +471,9 @@
       <div class="leadership-card-grid">
         <div class="leadership-card" data-type="leader" data-id="davidson">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Morris+Ansah+Davidson&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Morris Ansah Davidson">
+            <img src="https://ui-avatars.com/api/?name=Morris+Ansah+Davidson&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Morris Ansah Davidson" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Morris+Ansah+Davidson&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Morris Ansah Davidson')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Morris+Ansah+Davidson&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Morris Ansah Davidson')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -484,9 +484,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="owusu">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Carrin+Owusu&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Carrin Owusu">
+            <img src="https://ui-avatars.com/api/?name=Carrin+Owusu&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Carrin Owusu" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Carrin+Owusu&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Carrin Owusu')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Carrin+Owusu&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Carrin Owusu')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -497,9 +497,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="manful">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Lawrence+Manful&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Lawrence Manful">
+            <img src="https://ui-avatars.com/api/?name=Lawrence+Manful&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Lawrence Manful" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Lawrence+Manful&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Lawrence Manful')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Lawrence+Manful&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Lawrence Manful')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -510,9 +510,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="acquah">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Timothy+Acquah&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Timothy Acquah">
+            <img src="https://ui-avatars.com/api/?name=Timothy+Acquah&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Timothy Acquah" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Timothy+Acquah&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Timothy Acquah')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Timothy+Acquah&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Timothy Acquah')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -523,9 +523,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="asamoah">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Josephine+Asamoah&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Josephine Asamoah">
+            <img src="https://ui-avatars.com/api/?name=Josephine+Asamoah&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Josephine Asamoah" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Josephine+Asamoah&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Josephine Asamoah')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Josephine+Asamoah&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Josephine Asamoah')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -536,9 +536,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="hnyarkoh">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Harriet+Nyarkoh&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Harriet Nyarkoh">
+            <img src="https://ui-avatars.com/api/?name=Harriet+Nyarkoh&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Harriet Nyarkoh" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Harriet+Nyarkoh&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Harriet Nyarkoh')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Harriet+Nyarkoh&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Harriet Nyarkoh')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -549,9 +549,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="ngaoh">
           <div class="l-img-wrap">
-            <img src="https://ui-avatars.com/api/?name=Mavis+Akosua+Ngoah&background=003087&color=D4AF37&size=180&font-size=0.5&bold=true" alt="Mavis Akosua Ngoah">
+            <img src="https://ui-avatars.com/api/?name=Mavis+Akosua+Ngoah&background=1B4079&color=E8892E&size=180&font-size=0.5&bold=true" alt="Mavis Akosua Ngoah" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Mavis+Akosua+Ngoah&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Mavis Akosua Ngoah')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Mavis+Akosua+Ngoah&background=1B4079&color=E8892E&size=400&font-size=0.5&bold=true', 'Mavis Akosua Ngoah')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -562,9 +562,9 @@
         </div>
         <div class="leadership-card" data-type="leader" data-id="idan">
           <div class="l-img-wrap">
-            <img src="./images/Medley Idan.jpeg" alt="Medley Idan">
+            <img src="./images/Medley Idan.jpeg" alt="Medley Idan" class="l-img">
             <div class="img-overlay">
-              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('https://ui-avatars.com/api/?name=Medley+Idan&background=003087&color=D4AF37&size=400&font-size=0.5&bold=true', 'Medley Idan')"></i>
+              <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/Medley Idan.jpeg', 'Medley Idan')"></i>
             </div>
           </div>
           <div class="l-info">
@@ -772,23 +772,23 @@
           </span>
         </div>
       </div>
-      <div class="gallery-item" onclick="openLightbox('./images/photo-20.jpeg', 'Leadership Training')">
+      <div class="gallery-item" onclick="openLightbox('./images/photo-08.jpeg', 'Leadership Training')">
         <img src="./images/photo-08.jpeg" alt="Training" loading="lazy">
         <div class="gallery-overlay">
           <span><i class="fas fa-camera"></i> Leadership Training</span>
           <span class="icons">
-            <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/photo-20.jpeg', 'Leadership Training')"></i>
-            <i class="fas fa-download" onclick="event.stopPropagation(); downloadImage('./images/photo-20.jpeg', 'leadership-training')"></i>
+            <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/photo-08.jpeg', 'Leadership Training')"></i>
+            <i class="fas fa-download" onclick="event.stopPropagation(); downloadImage('./images/photo-08.jpeg', 'leadership-training')"></i>
           </span>
         </div>
       </div>
-      <div class="gallery-item" onclick="openLightbox('./images/photo-04.jpeg', 'Student Delegates')">
+      <div class="gallery-item" onclick="openLightbox('./images/photo-19.jpeg', 'Student Delegates')">
         <img src="./images/photo-19.jpeg" alt="Delegates" loading="lazy">
         <div class="gallery-overlay">
           <span><i class="fas fa-camera"></i> Student Delegates</span>
           <span class="icons">
-            <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/photo-04.jpeg', 'Student Delegates')"></i>
-            <i class="fas fa-download" onclick="event.stopPropagation(); downloadImage('./images/photo-04.jpeg', 'student-delegates')"></i>
+            <i class="fas fa-expand" onclick="event.stopPropagation(); openLightbox('./images/photo-19.jpeg', 'Student Delegates')"></i>
+            <i class="fas fa-download" onclick="event.stopPropagation(); downloadImage('./images/photo-19.jpeg', 'student-delegates')"></i>
           </span>
         </div>
       </div>
@@ -1065,23 +1065,6 @@
 
 <!-- ===== FLOATING BUTTONS ===== -->
 <button class="scroll-top" id="scrollTop" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
-<button class="chat-float" onclick="toggleChat()" aria-label="Chat with us">
-  <i class="fas fa-comment-dots"></i>
-</button>
-<div class="chat-window" id="chatWindow">
-  <div class="chat-header">
-    <span><i class="fas fa-robot"></i> YAD MUN Assistant</span>
-    <button class="close-chat" onclick="toggleChat()"><i class="fas fa-times"></i></button>
-  </div>
-  <div class="chat-messages" id="chatMessages">
-    <div class="chat-message bot">👋 Hello! I'm YAD MUN's AI assistant. How can I help you today?</div>
-    <div class="chat-message bot">I can answer questions about programmes, events, registration, donations, leadership, and more!</div>
-  </div>
-  <div class="chat-input">
-    <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendChatMessage()">
-    <button onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
-  </div>
-</div>
 <a href="https://wa.me/233242929381" class="whatsapp-float no-print" target="_blank" aria-label="Chat on WhatsApp">
   <i class="fab fa-whatsapp"></i>
 </a>

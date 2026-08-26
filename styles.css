@@ -20,7 +20,7 @@
   --radius: 10px;
   --max-width: 1140px;
   --font-sans: 'Inter', -apple-system, sans-serif;
-  --font-serif: 'Poppins', sans-serif;
+  --font-serif: 'Playfair Display', serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
   --bg-primary: #FFFFFF;
   --bg-secondary: #F5F8FC;
@@ -42,9 +42,6 @@ body.dark-mode {
   --glass-bg: rgba(255, 255, 255, 0.06);
   --glass-bg-strong: rgba(255, 255, 255, 0.09);
   --glass-border: rgba(255, 255, 255, 0.14);
-}
-
-body.dark-mode {
   --bg-primary: #0B1626;
   --bg-secondary: #12203A;
   --text-primary: #F5F8FC;
@@ -1300,6 +1297,19 @@ body.dark-mode .leadership-card .l-position {
   transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
   border-color: var(--gold);
+}
+
+.event-card .event-img-wrap img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: var(--transition);
+}
+
+.event-card:hover .event-img-wrap img {
+  transform: scale(1.03);
 }
 
 .event-date-box {
