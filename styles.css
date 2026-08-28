@@ -1181,6 +1181,16 @@ body.dark-mode .leadership-section {
   transform: scale(1.03);
 }
 
+.leadership-card .l-img.l-img-face-zoom {
+  object-position: center 22%;
+  transform: scale(1.5);
+  transform-origin: center 22%;
+}
+
+.leadership-card:hover .l-img.l-img-face-zoom {
+  transform: scale(1.55);
+}
+
 .leadership-card .l-info {
   padding: 18px 16px 20px;
 }
@@ -1449,14 +1459,18 @@ body.dark-mode .event-info h4 {
   border-color: var(--gold);
 }
 
-.blog-card img {
+.blog-card img,
+.blog-card video {
   width: 100%;
-  height: 120px;
+  height: 180px;
   object-fit: cover;
+  display: block;
   transition: var(--transition);
+  background: #000;
 }
 
-.blog-card:hover img {
+.blog-card:hover img,
+.blog-card:hover video {
   transform: scale(1.03);
 }
 

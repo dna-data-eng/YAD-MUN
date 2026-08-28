@@ -6,7 +6,7 @@
 const CONFIG = {
   REGISTRATION_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
   CONTACT_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
-  WHATSAPP_NUMBER: '233332097330', // international format, no leading 0, no +
+  WHATSAPP_NUMBER: '233242929381', // international format, no leading 0, no +
   CONFERENCE_DATE_ISO: '2026-12-15T09:00:00+00:00'
 };
 
