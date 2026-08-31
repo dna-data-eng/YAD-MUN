@@ -7,8 +7,22 @@ const CONFIG = {
   REGISTRATION_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
   CONTACT_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
   WHATSAPP_NUMBER: '233242929381', // international format, no leading 0, no +
-  CONFERENCE_DATE_ISO: '2026-12-15T09:00:00+00:00'
+  CONFERENCE_DATE_ISO: '2026-12-15T09:00:00+00:00',
+  SUPABASE_URL: 'REPLACE_WITH_YOUR_SUPABASE_PROJECT_URL',
+  SUPABASE_ANON_KEY: 'REPLACE_WITH_YOUR_SUPABASE_ANON_KEY'
 };
+
+/* ============================================================
+   SUPABASE CLIENT
+   ============================================================ */
+let supabaseClient = null;
+if (
+  typeof window.supabase !== 'undefined' &&
+  CONFIG.SUPABASE_URL.indexOf('REPLACE_WITH') === -1 &&
+  CONFIG.SUPABASE_ANON_KEY.indexOf('REPLACE_WITH') === -1
+) {
+  supabaseClient = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+}
 
 /* ============================================================
    TOAST
@@ -336,7 +350,28 @@ function handleRegistration() {
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
-  submitToEndpoint(CONFIG.REGISTRATION_ENDPOINT, data)
+  let savePromise;
+  if (supabaseClient) {
+    savePromise = supabaseClient.from('registrations').insert([{
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      school: data.school,
+      committee: data.committee,
+      registered_at: data.registeredAt
+    }]).then(function (result) {
+      if (result.error) throw new Error('db-insert-failed: ' + result.error.message);
+      // Best-effort email notification too — failure here should not block a successful DB save.
+      if (CONFIG.REGISTRATION_ENDPOINT.indexOf('REPLACE_WITH') === -1) {
+        submitToEndpoint(CONFIG.REGISTRATION_ENDPOINT, data).catch(function () {});
+      }
+      return result;
+    });
+  } else {
+    savePromise = submitToEndpoint(CONFIG.REGISTRATION_ENDPOINT, data);
+  }
+
+  savePromise
     .then(function () {
       showStatus('Registration successful. We will contact you shortly.', 'success');
       showToast('Welcome to YAD MUN, ' + data.name + '!', 'success');
