@@ -8,8 +8,8 @@ const CONFIG = {
   CONTACT_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
   WHATSAPP_NUMBER: '233242929381', // international format, no leading 0, no +
   CONFERENCE_DATE_ISO: '2026-12-15T09:00:00+00:00',
-  SUPABASE_URL: 'REPLACE_WITH_YOUR_SUPABASE_PROJECT_URL',
-  SUPABASE_ANON_KEY: 'REPLACE_WITH_YOUR_SUPABASE_ANON_KEY'
+  SUPABASE_URL: 'https://ceisqjqiwryaxiyihaaw.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlaXNxanFpd3J5YXhpeWloYWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgxNDE5NzcsImV4cCI6MjEwMzcxNzk3N30.KoW_WzWZPV0lyuPOVNYCPi3nOZaFh0cKaNbmzLr71rU'
 };
 
 /* ============================================================
