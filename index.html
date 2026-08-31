@@ -660,6 +660,11 @@
     <div class="register-box">
       <div id="statusMsg" class="status-msg" role="status" aria-live="polite"></div>
       <form id="registrationForm" action="https://formspree.io/f/info@yadmun.org" method="POST">
+        <!-- Honeypot: hidden from real users, but bots that auto-fill every field will trip it -->
+        <div class="hp-field" aria-hidden="true">
+          <label for="regWebsite">Website</label>
+          <input type="text" name="website" id="regWebsite" tabindex="-1" autocomplete="off">
+        </div>
         <div class="form-row">
           <div class="form-group"><label for="regName"><i class="fas fa-user"></i> Full Name *</label><input type="text" name="name" id="regName" required placeholder="Ama Serwaa" autocomplete="name"></div>
           <div class="form-group"><label for="regPhone"><i class="fas fa-phone"></i> WhatsApp *</label><input type="tel" name="phone" id="regPhone" required placeholder="0244xxxxxx" autocomplete="tel"></div>

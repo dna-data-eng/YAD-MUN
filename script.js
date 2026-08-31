@@ -335,6 +335,17 @@ function validateRegistration() {
 
 function handleRegistration() {
   const btn = document.getElementById('registerBtn');
+
+  // Honeypot check — if this hidden field has a value, a bot filled it in.
+  // Pretend success so the bot doesn't learn to avoid this trick, but never
+  // actually save or send the data anywhere.
+  const honeypot = document.getElementById('regWebsite');
+  if (honeypot && honeypot.value.trim() !== '') {
+    showStatus('Registration successful. We will contact you shortly.', 'success');
+    document.getElementById('registrationForm').reset();
+    return;
+  }
+
   if (!validateRegistration()) return;
 
   const data = {

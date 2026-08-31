@@ -1651,6 +1651,17 @@ body.dark-mode .opp-item h4 {
   gap: 14px;
 }
 
+/* Honeypot — invisible to real visitors, but present in the DOM
+   (not display:none) so most spam bots still fill it in. */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .form-group {
   margin-bottom: 14px;
 }
