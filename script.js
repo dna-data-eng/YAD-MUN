@@ -7,22 +7,8 @@ const CONFIG = {
   REGISTRATION_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
   CONTACT_ENDPOINT: 'https://formspree.io/f/info@yadmun.org',
   WHATSAPP_NUMBER: '233242929381', // international format, no leading 0, no +
-  CONFERENCE_DATE_ISO: '2026-12-15T09:00:00+00:00',
-  SUPABASE_URL: 'https://ceisqjqiwryaxiyihaaw.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlaXNxanFpd3J5YXhpeWloYWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgxNDE5NzcsImV4cCI6MjEwMzcxNzk3N30.KoW_WzWZPV0lyuPOVNYCPi3nOZaFh0cKaNbmzLr71rU'
+  CONFERENCE_DATE_ISO: '2026-12-15T09:00:00+00:00'
 };
-
-/* ============================================================
-   SUPABASE CLIENT
-   ============================================================ */
-let supabaseClient = null;
-if (
-  typeof window.supabase !== 'undefined' &&
-  CONFIG.SUPABASE_URL.indexOf('REPLACE_WITH') === -1 &&
-  CONFIG.SUPABASE_ANON_KEY.indexOf('REPLACE_WITH') === -1
-) {
-  supabaseClient = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
-}
 
 /* ============================================================
    TOAST
@@ -338,7 +324,8 @@ function handleRegistration() {
 
   // Honeypot check — if this hidden field has a value, a bot filled it in.
   // Pretend success so the bot doesn't learn to avoid this trick, but never
-  // actually save or send the data anywhere.
+  // actually save or send the data anywhere. (Also re-checked server-side
+  // in /api/register.js, since a bot could skip this JS entirely.)
   const honeypot = document.getElementById('regWebsite');
   if (honeypot && honeypot.value.trim() !== '') {
     showStatus('Registration successful. We will contact you shortly.', 'success');
@@ -354,35 +341,27 @@ function handleRegistration() {
     email: document.getElementById('regEmail').value.trim(),
     school: document.getElementById('regSchool').value.trim(),
     committee: document.getElementById('regCommittee').value,
-    registeredAt: new Date().toISOString(),
     _subject: 'New YAD MUN registration'
   };
 
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
-  let savePromise;
-  if (supabaseClient) {
-    savePromise = supabaseClient.from('registrations').insert([{
-      name: data.name,
-      phone: data.phone,
-      email: data.email,
-      school: data.school,
-      committee: data.committee,
-      registered_at: data.registeredAt
-    }]).then(function (result) {
-      if (result.error) throw new Error('db-insert-failed: ' + result.error.message);
-      // Best-effort email notification too — failure here should not block a successful DB save.
+  // Save to the database via our own serverless function — the browser
+  // never talks to Supabase directly, so no database key of any kind
+  // is ever present in this file or visible to site visitors.
+  fetch('/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+    .then(function (response) {
+      if (!response.ok) throw new Error('db-insert-failed');
+      // Best-effort email notification too — failure here should not block a successful save.
       if (CONFIG.REGISTRATION_ENDPOINT.indexOf('REPLACE_WITH') === -1) {
         submitToEndpoint(CONFIG.REGISTRATION_ENDPOINT, data).catch(function () {});
       }
-      return result;
-    });
-  } else {
-    savePromise = submitToEndpoint(CONFIG.REGISTRATION_ENDPOINT, data);
-  }
-
-  savePromise
+    })
     .then(function () {
       showStatus('Registration successful. We will contact you shortly.', 'success');
       showToast('Welcome to YAD MUN, ' + data.name + '!', 'success');

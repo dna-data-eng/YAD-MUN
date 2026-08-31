@@ -11,7 +11,7 @@
        Vercel vercel.json, Apache .htaccess, or Nginx config). CSP below
        has been tightened to remove 'unsafe-inline' now that all CSS/JS
        live in external files. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://images.unsplash.com https://ui-avatars.com; connect-src 'self' https://formspree.io https://*.supabase.co; frame-src https://www.google.com; base-uri 'self'; form-action 'self' https://formspree.io;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://images.unsplash.com https://ui-avatars.com; connect-src 'self' https://formspree.io; frame-src https://www.google.com; base-uri 'self'; form-action 'self' https://formspree.io;" />
   <meta name="theme-color" content="#1B4079" />
   <!-- ... -->
   <!-- Favicon uses the official crest -->
@@ -893,7 +893,6 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

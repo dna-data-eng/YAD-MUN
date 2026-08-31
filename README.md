@@ -66,7 +66,9 @@ No package manager, no `node_modules`, no build command. What you edit is exactl
 .
 ├── index.html                          # All page markup and content
 ├── styles.css                          # All styling
-├── script.js                           # All behavior (forms, modals, dark mode, etc.)
+├── script.js                           # All client-side behavior — contains no secrets
+├── api/
+│   └── register.js                     # Vercel Serverless Function — the only place DB credentials are used
 ├── images/                             # Site photography, leadership portraits, favicon assets
 ├── videos/                             # News & Stories video files (video_one.mp4, video_two.mp4, video_three.mp4)
 ├── supabase_setup.sql                  # One-time SQL to provision the registrations table + security policy
@@ -104,28 +106,34 @@ Visit `http://localhost:8000`.
 
 ## Configuration
 
-All runtime configuration lives in one place — the `CONFIG` object at the top of `script.js`:
+Client-facing configuration (no secrets) lives in the `CONFIG` object at the top of `script.js`:
 
 ```javascript
 const CONFIG = {
   REGISTRATION_ENDPOINT: 'https://formspree.io/f/YOUR_FORM_ID',
   CONTACT_ENDPOINT: 'https://formspree.io/f/YOUR_FORM_ID',
   WHATSAPP_NUMBER: '233XXXXXXXXX',       // international format, no leading 0, no +
-  CONFERENCE_DATE_ISO: '2026-12-15T09:00:00+00:00',
-  SUPABASE_URL: 'https://xxxxxxxx.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJ...'
+  CONFERENCE_DATE_ISO: '2026-12-15T09:00:00+00:00'
 };
 ```
+
+Database credentials are **never** placed in this file — see below.
 
 ### Setting up the database (Supabase)
 
 1. Create a free project at [supabase.com](https://supabase.com)
-2. Open **SQL Editor → New query**, paste the contents of [`supabase_setup.sql`](./supabase_setup.sql), and run it. This creates the `registrations` table with Row Level Security already locked to insert-only for the public key.
-3. Copy your **Project URL** and **anon public** key from **Settings → API** into `CONFIG` above.
+2. Open **SQL Editor → New query**, paste the contents of [`supabase_setup.sql`](./supabase_setup.sql), and run it. This creates the `registrations` table with Row Level Security already locked to insert-only for the anon key.
+3. Copy your **Project URL** and **anon public** key from **Settings → API**.
+4. In your **Vercel** project, go to **Settings → Environment Variables** and add:
 
-> ⚠️ Only ever use the **anon public** key in this file. The `service_role` key grants full read/write access and bypasses all security rules — it must never appear in client-side code. It is used only inside the GitHub Actions backup workflow, stored as a repository secret.
+   | Name | Value |
+   |---|---|
+   | `SUPABASE_URL` | your Supabase project URL |
+   | `SUPABASE_ANON_KEY` | your Supabase anon public key |
 
-If `SUPABASE_URL` / `SUPABASE_ANON_KEY` are left as placeholders, the registration form automatically falls back to email-only delivery via Formspree — nothing breaks, it just won't persist to a database.
+   These are consumed only by the serverless function at `api/register.js`, which runs on Vercel's servers — never in the browser. The database credentials are not present anywhere in this repository, in `script.js`, or in any file a visitor (or anyone cloning this repo) can read.
+
+The browser submits registrations to `/api/register`, a Vercel Serverless Function, which validates the submission (including a server-side honeypot re-check) and performs the database insert on the server side. If the environment variables above aren't set, that endpoint returns a clear configuration error instead of silently failing.
 
 ### Setting up form delivery (Formspree)
 
@@ -157,10 +165,11 @@ Member data (names, phone numbers, emails) is never committed to this repository
 
 ## Security
 
-- **Row Level Security (RLS)** is enabled on every database table. The public key can only `INSERT` — reading, updating, or deleting registration data is not possible from the browser under any circumstances, regardless of what key an attacker obtains from the client-side code.
+- **No database credentials in client-side code, anywhere.** Registration writes go through `api/register.js`, a Vercel Serverless Function. The Supabase URL and key exist only as Vercel Environment Variables, injected at runtime on Vercel's servers — never shipped to the browser, never present in this repository.
+- **Row Level Security (RLS)** is enabled on every database table as defense in depth. Even the server-side key used by the function is limited to `INSERT` only — reading, updating, or deleting registration data is not possible through this key under any circumstances.
 - **Content-Security-Policy** header restricts script, style, and connection sources to an explicit allowlist.
+- **Server-side validation** — the honeypot check and field validation are enforced again inside `api/register.js`, not just in the browser, since a bot or malicious actor could bypass client-side JavaScript entirely and POST directly to the endpoint.
 - **Honeypot field** on the registration form silently filters automated spam submissions without alerting the bot.
-- **No client-side secrets** — the only credential present in `script.js` is the Supabase anon key, which is designed to be public by Supabase's own security model.
 
 ---
 
